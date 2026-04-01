@@ -5,15 +5,18 @@
     --radius: 8px;
 }
 html { font-size: 16px; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-h1 { display: none; }
-.subtitle { display: none; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+h1, .subtitle { display: none; }
 
-.simulator-wrapper { background: var(--bg2); overflow: hidden; flex: 1; display: flex; flex-direction: column; }
+/* === WRAPPER === */
+.simulator-wrapper { background: var(--bg2); overflow: hidden; flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+/* === MAIN GRID: desktop = side-by-side === */
 .simulator { display: grid; grid-template-columns: 1fr 220px; flex: 1; min-height: 0; }
-.sim-preview { position: relative; background: #111; overflow: hidden; height: 100%; }
 
-.sim-layer-bg { position: absolute; inset: -20px; z-index: 1; transition: filter 0.4s ease, transform 0.4s ease; transform-origin: center center; overflow: hidden; }
+/* === PREVIEW === */
+.sim-preview { position: relative; background: #111; overflow: hidden; min-height: 0; }
+.sim-layer-bg { position: absolute; inset: -20px; z-index: 1; transition: filter 0.4s ease, transform 0.4s ease; transform-origin: center center; }
 .sim-layer-bg img { width: 100%; height: 100%; object-fit: cover; }
 .sim-layer-subject { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 2; width: 55%; height: 90%; display: flex; align-items: flex-end; justify-content: center; transition: filter 0.4s ease, width 0.4s ease; }
 .sim-layer-subject img { width: 100%; height: 100%; object-fit: contain; object-position: bottom center; }
@@ -21,43 +24,131 @@ h1 { display: none; }
 .sim-wb-overlay { position: absolute; inset: 0; z-index: 4; pointer-events: none; mix-blend-mode: color; opacity: 0; transition: background 0.4s ease, opacity 0.4s ease; }
 .sim-noise-overlay { position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: 0; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 128px 128px; transition: opacity 0.4s ease; }
 
-.sim-info-bar { position: absolute; bottom: 0; left: 0; right: 0; z-index: 10; background: rgba(0,0,0,0.85); padding: 0.5rem 1rem; display: flex; gap: 1.5rem; align-items: center; font-size: 0.75rem; font-family: monospace; color: var(--text2); }
-.sim-info-bar .mode-badge { background: var(--accent); color: #000; padding: 2px 8px; border-radius: 3px; font-weight: 700; }
+/* === INFO BAR === */
+.sim-info-bar { position: absolute; bottom: 0; left: 0; right: 0; z-index: 10; background: rgba(0,0,0,0.85); padding: 0.4rem 0.75rem; display: flex; gap: 1rem; align-items: center; font-size: 0.7rem; font-family: monospace; color: var(--text2); flex-wrap: wrap; }
+.sim-info-bar .mode-badge { background: var(--accent); color: #000; padding: 2px 8px; border-radius: 3px; font-weight: 700; flex-shrink: 0; }
 .sim-info-bar span { display: flex; flex-direction: column; }
-.sim-info-bar .label { font-size: 0.6rem; text-transform: uppercase; color: #666; }
+.sim-info-bar .label { font-size: 0.55rem; text-transform: uppercase; color: #666; }
 
-.sim-controls { background: var(--bg3); padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; overflow-y: auto; height: 100%; }
-.control-group { display: flex; flex-direction: column; gap: 0.25rem; }
-.control-group label { font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+/* === CONTROLS PANEL === */
+.sim-controls { background: var(--bg3); padding: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; overflow-y: auto; min-height: 0; }
+.control-group { display: flex; flex-direction: column; gap: 0.2rem; }
+.control-group label { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
 .control-group.disabled { opacity: 0.35; pointer-events: none; }
 
-.mode-selector { display: flex; gap: 4px; }
-.mode-btn { flex: 1; padding: 0.5rem; background: var(--bg4); border: 2px solid var(--bg4); color: var(--text2); font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 4px; text-align: center; transition: all 0.2s; }
+.mode-selector { display: flex; gap: 3px; }
+.mode-btn { flex: 1; padding: 0.4rem; background: var(--bg4); border: 2px solid var(--bg4); color: var(--text2); font-weight: 700; font-size: 0.8rem; cursor: pointer; border-radius: 4px; text-align: center; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
 .mode-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
 .mode-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
 
-.value-spinner { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.spin-btn { width: 100%; padding: 4px; background: var(--bg4); border: 1px solid #444; color: var(--text2); cursor: pointer; border-radius: 3px; font-size: 0.8rem; text-align: center; }
-.spin-btn:hover { background: #444; }
-.spin-val { font-size: 0.7rem; color: var(--text2); text-align: center; padding: 2px 0; }
-.spin-current { font-size: 1.1rem; font-weight: 700; color: var(--accent); background: var(--bg); padding: 0.4rem 0.75rem; border-radius: 4px; text-align: center; border: 2px solid var(--accent); width: 100%; }
+.value-spinner { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.spin-btn { width: 100%; padding: 6px; background: var(--bg4); border: 1px solid #444; color: var(--text2); cursor: pointer; border-radius: 3px; font-size: 0.8rem; text-align: center; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.spin-btn:hover, .spin-btn:active { background: #444; }
+.spin-val { font-size: 0.65rem; color: var(--text2); text-align: center; padding: 1px 0; min-height: 1em; }
+.spin-current { font-size: 1rem; font-weight: 700; color: var(--accent); background: var(--bg); padding: 0.3rem 0.5rem; border-radius: 4px; text-align: center; border: 2px solid var(--accent); width: 100%; }
 
-.wb-presets { display: flex; gap: 3px; margin-top: 4px; }
-.wb-preset { flex: 1; padding: 3px 0; background: var(--bg4); border: 1px solid #444; border-radius: 3px; cursor: pointer; font-size: 0.75rem; text-align: center; transition: all 0.2s; }
-.wb-preset:hover { border-color: var(--accent); background: #444; }
+.wb-presets { display: flex; gap: 2px; margin-top: 3px; }
+.wb-preset { flex: 1; padding: 4px 0; background: var(--bg4); border: 1px solid #444; border-radius: 3px; cursor: pointer; font-size: 0.75rem; text-align: center; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
+.wb-preset:hover, .wb-preset:active { border-color: var(--accent); background: #444; }
 
-.exposure-meter { background: rgba(0,0,0,0.85); border-top: 1px solid #333; padding: 0.6rem 1.5rem; }
-.meter-label { font-size: 0.65rem; color: var(--accent); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.25rem; letter-spacing: 1px; }
-.meter-label::before { content: '●'; color: var(--accent); font-size: 0.45rem; }
-.meter-track { position: relative; height: 30px; background: transparent; display: flex; flex-direction: column; justify-content: center; }
-.meter-ticks { display: flex; justify-content: space-between; width: 100%; padding: 0 4px; font-size: 0.55rem; color: #555; font-family: monospace; position: absolute; top: 2px; }
-.meter-scale { display: flex; justify-content: space-between; width: 100%; font-size: 0.65rem; color: var(--text2); font-family: monospace; position: relative; z-index: 1; }
-.meter-indicator { position: absolute; width: 14px; height: 14px; background: var(--accent); transform: rotate(45deg); top: 50%; left: 50%; transition: left 0.3s; margin-top: -7px; margin-left: -7px; z-index: 2; }
+/* === EXPOSURE METER === */
+.exposure-meter { background: rgba(0,0,0,0.85); border-top: 1px solid #333; padding: 0.5rem 1rem; flex-shrink: 0; }
+.meter-label { font-size: 0.6rem; color: var(--accent); margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.25rem; letter-spacing: 1px; }
+.meter-label::before { content: '●'; color: var(--accent); font-size: 0.4rem; }
+.meter-track { position: relative; height: 28px; display: flex; flex-direction: column; justify-content: center; }
+.meter-ticks { display: flex; justify-content: space-between; width: 100%; padding: 0 4px; font-size: 0.5rem; color: #555; font-family: monospace; position: absolute; top: 2px; }
+.meter-scale { display: flex; justify-content: space-between; width: 100%; font-size: 0.6rem; color: var(--text2); font-family: monospace; position: relative; z-index: 1; }
+.meter-indicator { position: absolute; width: 12px; height: 12px; background: var(--accent); transform: rotate(45deg); top: 50%; left: 50%; transition: left 0.3s; margin-top: -6px; margin-left: -6px; z-index: 2; }
 
+/* ============================================
+   TABLET: portrait (max-width: 768px)
+   Layout: preview top, controls bottom as grid
+   ============================================ */
 @media (max-width: 768px) {
-    body { padding: 1rem; }
-    .simulator { grid-template-columns: 1fr; height: auto; }
-    .sim-preview { height: 300px; }
-    .sim-controls { flex-direction: row; flex-wrap: wrap; height: auto; }
-    .control-group { flex: 1; min-width: 100px; }
+    .simulator { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+    .sim-preview { min-height: 40vh; }
+
+    .sim-controls {
+        flex-direction: row; flex-wrap: wrap; gap: 0.5rem;
+        padding: 0.6rem; overflow-y: visible; height: auto;
+    }
+    /* Mode selector full width */
+    .sim-controls > .control-group:first-child { flex: 0 0 100%; }
+    /* Other controls: 3 per row */
+    .sim-controls > .control-group { flex: 1 1 30%; min-width: 0; }
+
+    .mode-selector { gap: 4px; }
+    .mode-btn { padding: 0.5rem 0; font-size: 0.85rem; }
+
+    /* Horizontal spinner for tablet */
+    .value-spinner { flex-direction: row; align-items: center; gap: 4px; }
+    .spin-btn { width: auto; padding: 8px 12px; flex-shrink: 0; }
+    .spin-val { display: none; }
+    .spin-current { font-size: 0.9rem; padding: 0.35rem 0.4rem; flex: 1; }
+
+    .wb-presets { margin-top: 2px; }
+    .wb-preset { padding: 5px 0; font-size: 0.8rem; }
+
+    .sim-info-bar { gap: 0.6rem; font-size: 0.6rem; padding: 0.3rem 0.5rem; }
+    .sim-info-bar .label { font-size: 0.45rem; }
+}
+
+/* ============================================
+   MOBILE: small phones (max-width: 480px)
+   Tighter layout, bigger touch targets
+   ============================================ */
+@media (max-width: 480px) {
+    .sim-preview { min-height: 35vh; }
+
+    .sim-controls {
+        gap: 0.4rem; padding: 0.5rem;
+    }
+    .sim-controls > .control-group:first-child { flex: 0 0 100%; }
+    /* 2 per row on small phones */
+    .sim-controls > .control-group { flex: 1 1 45%; }
+
+    .control-group label { font-size: 0.6rem; letter-spacing: 0; }
+
+    .value-spinner { gap: 3px; }
+    .spin-btn { padding: 10px 10px; font-size: 0.85rem; }
+    .spin-current { font-size: 0.85rem; padding: 0.3rem 0.3rem; }
+
+    .mode-btn { padding: 0.45rem 0; font-size: 0.8rem; }
+
+    .wb-presets { gap: 2px; }
+    .wb-preset { padding: 6px 0; font-size: 0.85rem; }
+
+    .sim-info-bar { gap: 0.4rem; font-size: 0.55rem; padding: 0.25rem 0.4rem; }
+    .sim-info-bar .mode-badge { padding: 1px 5px; font-size: 0.6rem; }
+    .sim-info-bar .label { font-size: 0.4rem; }
+
+    .exposure-meter { padding: 0.4rem 0.6rem; }
+    .meter-scale { font-size: 0.55rem; }
+    .meter-indicator { width: 10px; height: 10px; margin-top: -5px; margin-left: -5px; }
+}
+
+/* ============================================
+   LANDSCAPE MOBILE: phone rotated
+   Side-by-side but smaller controls
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+    .simulator { grid-template-columns: 1fr 180px; grid-template-rows: 1fr; }
+    .sim-preview { min-height: 0; }
+
+    .sim-controls {
+        flex-direction: column; gap: 0.3rem; padding: 0.4rem;
+        overflow-y: auto; height: 100%;
+    }
+    .control-group label { font-size: 0.6rem; }
+    .value-spinner { flex-direction: row; align-items: center; gap: 3px; }
+    .spin-btn { width: auto; padding: 4px 8px; font-size: 0.7rem; }
+    .spin-val { display: none; }
+    .spin-current { font-size: 0.8rem; padding: 0.2rem 0.3rem; flex: 1; }
+    .mode-btn { padding: 0.3rem 0; font-size: 0.7rem; }
+    .wb-presets { gap: 1px; }
+    .wb-preset { padding: 2px 0; font-size: 0.65rem; }
+
+    .exposure-meter { padding: 0.3rem 0.6rem; }
+    .meter-track { height: 22px; }
+    .meter-scale { font-size: 0.5rem; }
 }
