@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Camera Simulator - Học Nhiếp Ảnh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="simulator.css" />
+</head>
+<body>
+
+    <div class="simulator-wrapper">
+        <div class="simulator" id="camera-sim" data-initial-mode="M">
+            <div class="sim-preview">
+                <div class="sim-layer-bg" id="sim-bg">
+                    <img src="../images/sim-background.svg" alt="Background" />
+                </div>
+                <div class="sim-layer-subject" id="sim-subject">
+                    <img src="../images/sim-subject.svg" alt="Subject" />
+                </div>
+                <div class="sim-overlay" id="sim-overlay"></div>
+                <div class="sim-wb-overlay" id="sim-wb"></div>
+                <div class="sim-noise-overlay" id="sim-noise"></div>
+                <div class="sim-info-bar">
+                    <span class="mode-badge" id="sim-mode-badge">M</span>
+                    <span><span class="label">Aperture</span><span id="info-aperture">f/5.6</span></span>
+                    <span><span class="label">Shutter</span><span id="info-shutter">1/125</span></span>
+                    <span><span class="label">ISO</span><span id="info-iso">AUTO (100)</span></span>
+                    <span><span class="label">File</span>JPEG</span>
+                    <span><span class="label">Focal</span><span id="info-focal">50mm</span></span>
+                    <span><span class="label">WB</span><span id="info-wb">5500K</span></span>
+                    <span><span class="label">Exposure</span><span id="info-ev">+0.0 EV</span></span>
+                </div>
+            </div>
+
+            <div class="sim-controls">
+                <div class="control-group">
+                    <label>Chế độ</label>
+                    <div class="mode-selector">
+                        <button class="mode-btn" data-mode="P" onclick="setMode('P')">P</button>
+                        <button class="mode-btn" data-mode="Av" onclick="setMode('Av')">Av</button>
+                        <button class="mode-btn" data-mode="Tv" onclick="setMode('Tv')">Tv</button>
+                        <button class="mode-btn" data-mode="M" onclick="setMode('M')">M</button>
+                    </div>
+                </div>
+                <div class="control-group" id="aperture-group">
+                    <label>Khẩu độ (F)</label>
+                    <div class="value-spinner">
+                        <button class="spin-btn" onclick="changeAperture(-1)">▲</button>
+                        <div class="spin-val" id="aperture-prev"></div>
+                        <div class="spin-current" id="aperture-val">5.6</div>
+                        <div class="spin-val" id="aperture-next"></div>
+                        <button class="spin-btn" onclick="changeAperture(1)">▼</button>
+                    </div>
+                </div>
+                <div class="control-group" id="shutter-group">
+                    <label>Tốc độ</label>
+                    <div class="value-spinner">
+                        <button class="spin-btn" onclick="changeShutter(-1)">▲</button>
+                        <div class="spin-val" id="shutter-prev"></div>
+                        <div class="spin-current" id="shutter-val">1/125</div>
+                        <div class="spin-val" id="shutter-next"></div>
+                        <button class="spin-btn" onclick="changeShutter(1)">▼</button>
+                    </div>
+                </div>
+                <div class="control-group" id="iso-group">
+                    <label>ISO</label>
+                    <div class="value-spinner">
+                        <button class="spin-btn" onclick="changeISO(-1)">▲</button>
+                        <div class="spin-val" id="iso-prev"></div>
+                        <div class="spin-current" id="iso-val">Auto</div>
+                        <div class="spin-val" id="iso-next"></div>
+                        <button class="spin-btn" onclick="changeISO(1)">▼</button>
+                    </div>
+                </div>
+                <div class="control-group" id="focal-group">
+                    <label>Tiêu cự (mm)</label>
+                    <div class="value-spinner">
+                        <button class="spin-btn" onclick="changeFocal(-1)">▲</button>
+                        <div class="spin-val" id="focal-prev"></div>
+                        <div class="spin-current" id="focal-val">50</div>
+                        <div class="spin-val" id="focal-next"></div>
+                        <button class="spin-btn" onclick="changeFocal(1)">▼</button>
+                    </div>
+                </div>
+                <div class="control-group" id="wb-group">
+                    <label>WB (Kelvin)</label>
+                    <div class="value-spinner">
+                        <button class="spin-btn" onclick="changeWB(-1)">▲</button>
+                        <div class="spin-val" id="wb-prev"></div>
+                        <div class="spin-current" id="wb-val">5500K</div>
+                        <div class="spin-val" id="wb-next"></div>
+                        <button class="spin-btn" onclick="changeWB(1)">▼</button>
+                    </div>
+                    <div class="wb-presets">
+                        <button class="wb-preset" onclick="setWBPreset(0)" title="Candle 2500K">🕯️</button>
+                        <button class="wb-preset" onclick="setWBPreset(2)" title="Fluorescent 4000K">💡</button>
+                        <button class="wb-preset" onclick="setWBPreset(4)" title="Daylight 5500K">☀️</button>
+                        <button class="wb-preset" onclick="setWBPreset(6)" title="Cloudy 6500K">☁️</button>
+                        <button class="wb-preset" onclick="setWBPreset(8)" title="Shade 8000K">🌤️</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exposure-meter">
+            <div class="meter-label">EXPOSURE METER</div>
+            <div class="meter-track">
+                <div class="meter-ticks">
+                    <span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span>
+                </div>
+                <div class="meter-scale">
+                    <span>-3</span><span>-2</span><span>-1</span>
+                    <span>0</span>
+                    <span>+1</span><span>+2</span><span>+3</span>
+                </div>
+                <div class="meter-indicator" id="meter-indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="simulator.js"></script>
+</body>
+</html>

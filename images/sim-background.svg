@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5B9BD5"/>
+      <stop offset="60%" stop-color="#A8D8EA"/>
+      <stop offset="100%" stop-color="#D4ECFA"/>
+    </linearGradient>
+    <linearGradient id="mtn1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2D5F2D"/>
+      <stop offset="100%" stop-color="#1B3D1B"/>
+    </linearGradient>
+    <linearGradient id="mtn2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A7A3A"/>
+      <stop offset="100%" stop-color="#2D5F2D"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A8C4A"/>
+      <stop offset="100%" stop-color="#2D6B2D"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <!-- Clouds -->
+  <ellipse cx="150" cy="100" rx="80" ry="30" fill="white" opacity="0.7"/>
+  <ellipse cx="200" cy="90" rx="60" ry="25" fill="white" opacity="0.6"/>
+  <ellipse cx="600" cy="130" rx="90" ry="28" fill="white" opacity="0.5"/>
+  <ellipse cx="660" cy="120" rx="50" ry="22" fill="white" opacity="0.4"/>
+  <!-- Far mountains -->
+  <polygon points="0,380 80,220 180,300 280,180 400,280 520,200 620,260 720,190 800,300 800,450 0,450" fill="url(#mtn1)" opacity="0.7"/>
+  <!-- Near mountains -->
+  <polygon points="0,420 100,300 220,370 350,280 450,350 580,290 680,340 800,310 800,450 0,450" fill="url(#mtn2)" opacity="0.8"/>
+  <!-- Trees on mountains -->
+  <ellipse cx="120" cy="330" rx="25" ry="35" fill="#1B5E20" opacity="0.6"/>
+  <ellipse cx="200" cy="360" rx="20" ry="30" fill="#2E7D32" opacity="0.5"/>
+  <ellipse cx="620" cy="310" rx="22" ry="32" fill="#1B5E20" opacity="0.6"/>
+  <ellipse cx="700" cy="330" rx="18" ry="28" fill="#2E7D32" opacity="0.5"/>
+  <!-- Ground / grass -->
+  <rect y="420" width="800" height="180" fill="url(#ground)"/>
+  <!-- Ground texture -->
+  <ellipse cx="100" cy="500" rx="60" ry="8" fill="#3D8B3D" opacity="0.4"/>
+  <ellipse cx="350" cy="520" rx="80" ry="10" fill="#3D8B3D" opacity="0.3"/>
+  <ellipse cx="650" cy="490" rx="70" ry="9" fill="#3D8B3D" opacity="0.4"/>
+  <!-- Foreground trees left -->
+  <rect x="30" y="340" width="12" height="80" fill="#5D4037"/>
+  <ellipse cx="36" cy="310" rx="35" ry="45" fill="#2E7D32"/>
+  <ellipse cx="36" cy="300" rx="28" ry="35" fill="#388E3C"/>
+  <!-- Foreground trees right -->
+  <rect x="740" y="320" width="14" height="100" fill="#5D4037"/>
+  <ellipse cx="747" cy="290" rx="40" ry="50" fill="#2E7D32"/>
+  <ellipse cx="747" cy="280" rx="32" ry="40" fill="#388E3C"/>
+</svg>
