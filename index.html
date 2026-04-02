@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Camera Simulator - Học Nhiếp Ảnh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="simulator.css" />
 </head>
 
@@ -28,7 +27,7 @@
             </div>
         </div>
 
-        <div class="simulator" id="camera-sim" data-initial-mode="Av">
+        <div class="simulator" id="camera-sim" data-initial-mode=   "Av">
             <div class="sim-preview" id="sim-preview-container">
                 <div class="sim-scene" id="sim-scene">
                     <div class="sim-layer-bg" id="sim-bg">
@@ -65,6 +64,7 @@
                     <span><span class="label">Aperture</span><span id="info-aperture">f/1.8</span></span>
                     <span><span class="label">Shutter</span><span id="info-shutter">1/125</span></span>
                     <span><span class="label">ISO</span><span id="info-iso">100</span></span>
+                    <button class="capture-btn" onclick="capturePhoto()"></button>
                     <span><span class="label">File</span>JPEG</span>
                     <span><span class="label">Focal</span><span id="info-focal">50mm</span></span>
                     <span><span class="label">WB</span><span id="info-wb">5500K</span></span>
@@ -153,10 +153,26 @@
             </div>
         </div>
     </div>
+    <!-- Photo capture modal -->
+    <div class="photo-modal" id="photo-modal">
+        <div class="photo-modal-content">
+            <div class="photo-modal-header">
+                <span id="photo-modal-info"></span>
+                <button class="photo-modal-close" onclick="closePhoto()">&times;</button>
+            </div>
+            <canvas id="photo-canvas"></canvas>
+            <div class="photo-modal-actions">
+                <button class="shutter-btn" onclick="downloadPhoto()">💾 Lưu ảnh</button>
+                <button class="shutter-btn" style="background:#555;color:#eee;" onclick="closePhoto()">Đóng</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@3.5.0/dist/dom-to-image-more.min.js"></script>
     <script src="js/camera-data.js"></script>
     <script src="js/camera-exposure.js"></script>
     <script src="js/camera-visuals.js"></script>
     <script src="js/camera-ui.js"></script>
+    <script src="js/camera-capture.js"></script>
     <script src="js/simulator.js"></script>
 </body>
 

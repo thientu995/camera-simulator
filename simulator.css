@@ -432,12 +432,12 @@ h1,
     left: 0;
     right: 0;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.85);
-    padding: 0.4rem 1rem;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 0.25rem 0.6rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-family: monospace;
     color: var(--text2);
 }
@@ -603,13 +603,13 @@ h1,
     left: 0;
     right: 0;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.75);
-    padding: 0.3rem 1rem;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 0.2rem 0.6rem;
 }
 
 .meter-track {
     position: relative;
-    height: 24px;
+    height: 18px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -650,6 +650,40 @@ h1,
     margin-top: -6px;
     margin-left: -6px;
     z-index: 2;
+}
+
+/* Capture button - shutter style in info bar */
+.capture-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.15s;
+}
+.capture-btn::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+    transition: all 0.15s;
+}
+.capture-btn:hover {
+    border-color: #fff;
+    transform: scale(1.15);
+}
+.capture-btn:hover::after {
+    background: #fff;
+}
+.capture-btn:active {
+    transform: scale(0.9);
+}
+.capture-btn:active::after {
+    background: var(--accent2);
 }
 
 /* ============================================
@@ -811,7 +845,7 @@ h1,
     .sim-info-bar {
         gap: 0.4rem;
         font-size: 0.55rem;
-        padding: 0.25rem 0.4rem;
+        padding: 0.2rem 0.4rem;
     }
 
     .sim-info-bar .mode-badge {
@@ -824,7 +858,7 @@ h1,
     }
 
     .exposure-meter {
-        padding: 0.4rem 0.6rem;
+        padding: 0.15rem 0.4rem;
     }
 
     .meter-scale {

@@ -38,6 +38,11 @@
         if (i >= 0 && i < CameraSimulator.WBS.length) { sim.state.wi = i; sim.updateAll(); }
     };
 
+    // Capture
+    window.capturePhoto  = function() { sim.capture(); };
+    window.downloadPhoto = function() { sim.downloadPhoto(); };
+    window.closePhoto    = function() { sim.closePhoto(); };
+
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
     else init();
 })();
