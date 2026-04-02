@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,50 +9,57 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="simulator.css" />
 </head>
+
 <body>
     <div class="simulator-wrapper">
         <!-- Scene sliders (top bar) -->
         <div class="scene-bar">
             <div class="scene-control">
                 <label>Ánh sáng</label>
-                <input type="range" id="lighting-slider" min="0" max="10" value="6" step="1" oninput="changeLighting(this.value)" />
+                <input type="range" id="lighting-slider" min="0" max="10" value="6" step="1"
+                    oninput="changeLighting(this.value)" />
                 <span id="lighting-label">Trời râm</span>
             </div>
             <div class="scene-control">
                 <label>Khoảng cách</label>
-                <input type="range" id="distance-slider" min="1" max="10" value="1" step="1" oninput="changeDistance(this.value)" />
+                <input type="range" id="distance-slider" min="1" max="10" value="1" step="1"
+                    oninput="changeDistance(this.value)" />
                 <span id="distance-label">1m</span>
             </div>
         </div>
 
         <div class="simulator" id="camera-sim" data-initial-mode="Av">
             <div class="sim-preview" id="sim-preview-container">
-                <div class="sim-layer-bg" id="sim-bg">
-                    <img src="images/sim-background.svg" alt="Background" />
-                </div>
-                <!-- Sun light source with bokeh/starburst -->
-                <div class="sim-sun" id="sim-sun">
-                    <div class="sun-core"></div>
-                    <div class="sun-glow"></div>
-                    <div class="sun-rays" id="sun-rays"></div>
-                </div>
-                <div class="sim-windmill" id="sim-windmill">
-                    <div class="windmill-pole"></div>
-                    <div class="windmill-blades-wrap" id="windmill-blades-wrap">
-                        <div class="windmill-blades" id="windmill-blades">
-                            <div class="blade"></div><div class="blade"></div><div class="blade"></div>
-                        </div>
-                        <!-- Motion ghost blades (populated by JS) -->
-                        <div class="windmill-ghosts" id="windmill-ghosts"></div>
+                <div class="sim-scene" id="sim-scene">
+                    <div class="sim-layer-bg" id="sim-bg">
+                        <img src="images/sim-background.svg" alt="Background" />
                     </div>
-                    <div class="windmill-hub"></div>
+                    <!-- Sun light source with bokeh/starburst -->
+                    <div class="sim-sun" id="sim-sun">
+                        <div class="sun-core"></div>
+                        <div class="sun-glow"></div>
+                        <div class="sun-rays" id="sun-rays"></div>
+                    </div>
+                    <div class="sim-windmill" id="sim-windmill">
+                        <div class="windmill-pole"></div>
+                        <div class="windmill-blades-wrap" id="windmill-blades-wrap">
+                            <div class="windmill-blades" id="windmill-blades">
+                                <div class="blade"></div>
+                                <div class="blade"></div>
+                                <div class="blade"></div>
+                            </div>
+                            <!-- Motion ghost blades (populated by JS) -->
+                            <div class="windmill-ghosts" id="windmill-ghosts"></div>
+                        </div>
+                        <div class="windmill-hub"></div>
+                    </div>
+                    <div class="sim-layer-subject" id="sim-subject">
+                        <img src="images/sim-subject.svg" alt="Subject" />
+                    </div>
+                    <div class="sim-overlay" id="sim-overlay"></div>
+                    <div class="sim-wb-overlay" id="sim-wb"></div>
+                    <div class="sim-noise-overlay" id="sim-noise"></div>
                 </div>
-                <div class="sim-layer-subject" id="sim-subject">
-                    <img src="images/sim-subject.svg" alt="Subject" />
-                </div>
-                <div class="sim-overlay" id="sim-overlay"></div>
-                <div class="sim-wb-overlay" id="sim-wb"></div>
-                <div class="sim-noise-overlay" id="sim-noise"></div>
                 <div class="sim-info-bar">
                     <span class="mode-badge" id="sim-mode-badge">Av</span>
                     <span><span class="label">Aperture</span><span id="info-aperture">f/1.8</span></span>
@@ -145,6 +153,11 @@
             </div>
         </div>
     </div>
-    <script src="simulator.js"></script>
+    <script src="js/camera-data.js"></script>
+    <script src="js/camera-exposure.js"></script>
+    <script src="js/camera-visuals.js"></script>
+    <script src="js/camera-ui.js"></script>
+    <script src="js/simulator.js"></script>
 </body>
+
 </html>

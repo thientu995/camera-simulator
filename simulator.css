@@ -204,6 +204,13 @@ h1,
     overflow: hidden;
     min-height: 0;
 }
+.sim-scene {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    transition: transform 0.4s ease, border-radius 0.4s ease;
+    transform-origin: center center;
+}
 
 .sim-layer-bg {
     position: absolute;
