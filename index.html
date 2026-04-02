@@ -9,12 +9,42 @@
     <link rel="stylesheet" href="simulator.css" />
 </head>
 <body>
-
     <div class="simulator-wrapper">
+        <!-- Scene sliders (top bar) -->
+        <div class="scene-bar">
+            <div class="scene-control">
+                <label>Ánh sáng</label>
+                <input type="range" id="lighting-slider" min="0" max="10" value="6" step="1" oninput="changeLighting(this.value)" />
+                <span id="lighting-label">Trời râm</span>
+            </div>
+            <div class="scene-control">
+                <label>Khoảng cách</label>
+                <input type="range" id="distance-slider" min="1" max="10" value="1" step="1" oninput="changeDistance(this.value)" />
+                <span id="distance-label">1m</span>
+            </div>
+        </div>
+
         <div class="simulator" id="camera-sim" data-initial-mode="Av">
-            <div class="sim-preview">
+            <div class="sim-preview" id="sim-preview-container">
                 <div class="sim-layer-bg" id="sim-bg">
                     <img src="images/sim-background.svg" alt="Background" />
+                </div>
+                <!-- Sun light source with bokeh/starburst -->
+                <div class="sim-sun" id="sim-sun">
+                    <div class="sun-core"></div>
+                    <div class="sun-glow"></div>
+                    <div class="sun-rays" id="sun-rays"></div>
+                </div>
+                <div class="sim-windmill" id="sim-windmill">
+                    <div class="windmill-pole"></div>
+                    <div class="windmill-blades-wrap" id="windmill-blades-wrap">
+                        <div class="windmill-blades" id="windmill-blades">
+                            <div class="blade"></div><div class="blade"></div><div class="blade"></div>
+                        </div>
+                        <!-- Motion ghost blades (populated by JS) -->
+                        <div class="windmill-ghosts" id="windmill-ghosts"></div>
+                    </div>
+                    <div class="windmill-hub"></div>
                 </div>
                 <div class="sim-layer-subject" id="sim-subject">
                     <img src="images/sim-subject.svg" alt="Subject" />
@@ -23,14 +53,25 @@
                 <div class="sim-wb-overlay" id="sim-wb"></div>
                 <div class="sim-noise-overlay" id="sim-noise"></div>
                 <div class="sim-info-bar">
-                    <span class="mode-badge" id="sim-mode-badge">M</span>
-                    <span><span class="label">Aperture</span><span id="info-aperture">f/5.6</span></span>
+                    <span class="mode-badge" id="sim-mode-badge">Av</span>
+                    <span><span class="label">Aperture</span><span id="info-aperture">f/1.8</span></span>
                     <span><span class="label">Shutter</span><span id="info-shutter">1/125</span></span>
-                    <span><span class="label">ISO</span><span id="info-iso">AUTO (100)</span></span>
+                    <span><span class="label">ISO</span><span id="info-iso">100</span></span>
                     <span><span class="label">File</span>JPEG</span>
                     <span><span class="label">Focal</span><span id="info-focal">50mm</span></span>
                     <span><span class="label">WB</span><span id="info-wb">5500K</span></span>
                     <span><span class="label">Exposure</span><span id="info-ev">+0.0 EV</span></span>
+                </div>
+                <div class="exposure-meter">
+                    <div class="meter-track">
+                        <div class="meter-ticks">
+                            <span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span>
+                        </div>
+                        <div class="meter-scale">
+                            <span>-3</span><span>-2</span><span>-1</span><span>0</span><span>+1</span><span>+2</span><span>+3</span>
+                        </div>
+                        <div class="meter-indicator" id="meter-indicator"></div>
+                    </div>
                 </div>
             </div>
 
@@ -49,7 +90,7 @@
                     <div class="value-spinner">
                         <button class="spin-btn" onclick="changeAperture(-1)">▲</button>
                         <div class="spin-val" id="aperture-prev"></div>
-                        <div class="spin-current" id="aperture-val">5.6</div>
+                        <div class="spin-current" id="aperture-val">1.8</div>
                         <div class="spin-val" id="aperture-next"></div>
                         <button class="spin-btn" onclick="changeAperture(1)">▼</button>
                     </div>
@@ -69,7 +110,7 @@
                     <div class="value-spinner">
                         <button class="spin-btn" onclick="changeISO(-1)">▲</button>
                         <div class="spin-val" id="iso-prev"></div>
-                        <div class="spin-current" id="iso-val">Auto</div>
+                        <div class="spin-current" id="iso-val">100</div>
                         <div class="spin-val" id="iso-next"></div>
                         <button class="spin-btn" onclick="changeISO(1)">▼</button>
                     </div>
@@ -103,23 +144,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="exposure-meter">
-            <div class="meter-label">EXPOSURE METER</div>
-            <div class="meter-track">
-                <div class="meter-ticks">
-                    <span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span>
-                </div>
-                <div class="meter-scale">
-                    <span>-3</span><span>-2</span><span>-1</span>
-                    <span>0</span>
-                    <span>+1</span><span>+2</span><span>+3</span>
-                </div>
-                <div class="meter-indicator" id="meter-indicator"></div>
-            </div>
-        </div>
     </div>
-
     <script src="simulator.js"></script>
 </body>
 </html>
