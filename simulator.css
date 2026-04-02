@@ -231,6 +231,7 @@ h1,
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+    transform-origin: bottom center;
     z-index: 2;
     width: 55%;
     height: 90%;
