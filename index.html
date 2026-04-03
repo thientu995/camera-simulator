@@ -13,23 +13,34 @@
     <div class="simulator-wrapper">
         <!-- Scene sliders (top bar) -->
         <div class="scene-bar">
-            <div class="scene-control">
-                <label>🌙→☀️</label>
-                <input type="range" id="lighting-slider" min="0" max="10" value="6" step="1"
-                    oninput="changeLighting(this.value)" />
-                <span id="lighting-label">Trời râm</span>
+            <!-- Mobile toggle buttons (hidden on desktop) -->
+            <div class="scene-mobile-toggles">
+                <button class="scene-toggle-btn" onclick="toggleScenePanel('light')">🌙☀️</button>
+                <button class="scene-toggle-btn" onclick="toggleScenePanel('dist')">📷🧑⛰️</button>
+                <button class="dof-toggle active" id="dof-toggle" onclick="toggleDOF()" title="DOF Visual">DOF-V</button>
             </div>
-            <div class="scene-control">
-                <label>📷→🧑</label>
-                <input type="range" id="distance-slider" min="1" max="10" value="1" step="1"
-                    oninput="changeDistance(this.value)" />
-                <span id="distance-label">1m</span>
+            <!-- Expandable panels -->
+            <div class="scene-panel" id="scene-panel-light">
+                <div class="scene-control">
+                    <label>🌙→☀️</label>
+                    <input type="range" id="lighting-slider" min="0" max="10" value="6" step="1"
+                        oninput="changeLighting(this.value)" />
+                    <span id="lighting-label">Trời râm</span>
+                </div>
             </div>
-            <div class="scene-control">
-                <label>🧑→⛰️</label>
-                <input type="range" id="bg-distance-slider" min="1" max="50" value="50" step="1"
-                    oninput="changeBgDistance(this.value)" />
-                <span id="bg-distance-label">10m</span>
+            <div class="scene-panel" id="scene-panel-dist">
+                <div class="scene-control">
+                    <label>📷→🧑</label>
+                    <input type="range" id="distance-slider" min="1" max="10" value="1" step="1"
+                        oninput="changeDistance(this.value)" />
+                    <span id="distance-label">1m</span>
+                </div>
+                <div class="scene-control">
+                    <label>🧑→⛰️</label>
+                    <input type="range" id="bg-distance-slider" min="1" max="50" value="50" step="1"
+                        oninput="changeBgDistance(this.value)" />
+                    <span id="bg-distance-label">50m</span>
+                </div>
             </div>
         </div>
 
@@ -66,7 +77,15 @@
                     <div class="sim-noise-overlay" id="sim-noise"></div>
                 </div>
                 <div class="sim-info-bar">
-                    <span class="mode-badge" id="sim-mode-badge">Av</span>
+                    <div class="mode-badge-wrap">
+                        <button class="mode-badge" id="sim-mode-badge" onclick="toggleMobileMode()">Av</button>
+                        <div class="mode-dropdown" id="mode-dropdown">
+                            <button onclick="setMode('P')">P</button>
+                            <button onclick="setMode('Av')">Av</button>
+                            <button onclick="setMode('Tv')">Tv</button>
+                            <button onclick="setMode('M')">M</button>
+                        </div>
+                    </div>
                     <span><span class="label">Aperture</span><span id="info-aperture">f/1.8</span></span>
                     <span><span class="label">Shutter</span><span id="info-shutter">1/125</span></span>
                     <span><span class="label">ISO</span><span id="info-iso">100</span></span>
@@ -158,8 +177,21 @@
                 </div>
             </div>
         </div>
+        <!-- DOF Visualization Bar -->
+        <div class="dof-bar" id="dof-bar">
+            <div class="dof-header">
+                <span class="dof-title">DOF Visual</span>
+                <div class="dof-info" id="dof-info"></div>
+            </div>
+            <div class="dof-track">
+                <div class="dof-marker dof-marker-camera" title="Camera">&#x1F4F7;</div>
+                <div class="dof-zone" id="dof-zone"></div>
+                <div class="dof-marker dof-marker-subject" id="dof-subject" title="Subject">&#x1F9D1;</div>
+                <div class="dof-marker dof-marker-bg" id="dof-bg" title="Background">&#x26F0;&#xFE0F;</div>
+            </div>
+            <div class="dof-ticks" id="dof-ticks"></div>
+        </div>
     </div>
-    <!-- Photo capture modal -->
     <div class="photo-modal" id="photo-modal">
         <div class="photo-modal-content">
             <div class="photo-modal-header">
@@ -178,6 +210,7 @@
     <script src="js/camera-exposure.js"></script>
     <script src="js/camera-visuals.js"></script>
     <script src="js/camera-ui.js"></script>
+    <script src="js/camera-dof.js"></script>
     <script src="js/camera-capture.js"></script>
     <script src="js/simulator.js"></script>
 </body>

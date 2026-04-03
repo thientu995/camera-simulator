@@ -14,7 +14,12 @@
     window.changeLighting = function(v) { sim.state.lighting = parseInt(v); sim.updateAll(); };
     window.changeDistance  = function(v) { sim.state.distance = parseInt(v); sim.updateAll(); };
     window.changeBgDistance = function(v) { sim.state.bgDistance = parseInt(v); sim.updateAll(); };
-    window.setMode        = function(m) { sim.state.mode = m; sim.updateAll(); };
+    window.setMode = function(m) {
+        sim.state.mode = m;
+        sim.updateAll();
+        var dd = document.getElementById('mode-dropdown');
+        if (dd) dd.classList.remove('open');
+    };
     window.changeAperture = function(d) {
         var n = sim.state.ai + d;
         if (n >= 0 && n < CameraSimulator.APERTURES.length) { sim.state.ai = n; sim.updateAll(); }
@@ -43,6 +48,18 @@
     window.capturePhoto  = function() { sim.capture(); };
     window.downloadPhoto = function() { sim.downloadPhoto(); };
     window.closePhoto    = function() { sim.closePhoto(); };
+    window.toggleDOF     = function() { sim.toggleDOFBar(); };
+    window.toggleScenePanel = function(id) {
+        var panel = document.getElementById('scene-panel-' + id);
+        if (!panel) return;
+        var isOpen = panel.classList.contains('open');
+        document.querySelectorAll('.scene-panel').forEach(function(p) { p.classList.remove('open'); });
+        if (!isOpen) panel.classList.add('open');
+    };
+    window.toggleMobileMode = function() {
+        var dd = document.getElementById('mode-dropdown');
+        if (dd) dd.classList.toggle('open');
+    };
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
     else init();

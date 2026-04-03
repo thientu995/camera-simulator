@@ -48,7 +48,11 @@ h1,
     border-bottom: 1px solid var(--bg4);
     align-items: center;
     flex-shrink: 0;
+    flex-wrap: wrap;
 }
+/* Desktop: hide mobile toggles, show panels inline */
+.scene-mobile-toggles { display: none; }
+.scene-panel { display: contents; }
 
 .scene-control {
     display: flex;
@@ -443,6 +447,10 @@ h1,
     color: var(--text2);
 }
 
+.sim-info-bar .mode-badge-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
 .sim-info-bar .mode-badge {
     background: var(--accent);
     color: #000;
@@ -450,7 +458,35 @@ h1,
     border-radius: 3px;
     font-weight: 700;
     flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
 }
+.mode-dropdown {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    z-index: 20;
+    background: var(--bg2);
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    margin-bottom: 4px;
+    overflow: hidden;
+}
+.mode-dropdown.open { display: flex; }
+.mode-dropdown button {
+    padding: 0.4rem 0.8rem;
+    background: var(--bg4);
+    border: none;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+.mode-dropdown button:hover { background: var(--accent); color: #000; }
+.mode-dropdown button.active { background: var(--accent); color: #000; }
 
 .sim-info-bar span {
     display: flex;
@@ -687,14 +723,134 @@ h1,
     background: var(--accent2);
 }
 
+/* DOF toggle button */
+.dof-toggle {
+    padding: 0.25rem 0.6rem;
+    background: var(--bg4);
+    border: 2px solid #555;
+    color: var(--text2);
+    font-weight: 700;
+    font-size: 0.65rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.dof-toggle.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+/* DOF Visualization Bar */
+.dof-bar {
+    background: var(--bg3);
+    border-top: 1px solid var(--bg4);
+    border-bottom: 1px solid var(--bg4);
+    padding: 0.3rem 0.6rem 0.2rem;
+    flex-shrink: 0;
+}
+.dof-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.2rem;
+}
+.dof-title {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+.dof-info {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.6rem;
+    font-family: monospace;
+    color: var(--text2);
+    flex-wrap: wrap;
+    flex: 1;
+}
+.dof-info .dof-total { color: var(--accent); font-weight: 700; margin-left: auto; }
+.dof-track {
+    position: relative;
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(100,160,255,0.15), rgba(100,160,255,0.05));
+    border-radius: 3px;
+    overflow: visible;
+}
+.dof-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(40,200,80,0.5), rgba(40,200,80,0.25));
+    border-left: 2px solid #2c2;
+    border-right: 2px solid #2c2;
+    border-radius: 2px;
+    transition: left 0.3s, width 0.3s;
+}
+.dof-marker {
+    position: absolute;
+    top: -2px;
+    transform: translateX(-50%);
+    font-size: 1.1rem;
+    line-height: 28px;
+    transition: left 0.3s;
+    z-index: 2;
+}
+.dof-marker-camera { left: 0; transform: translateX(0); }
+.dof-marker-bg { right: 0; left: auto !important; transform: translateX(0); }
+.dof-ticks {
+    position: relative;
+    height: 14px;
+    font-size: 0.5rem;
+    color: #666;
+    font-family: monospace;
+}
+.dof-ticks span {
+    position: absolute;
+    transform: translateX(-50%);
+    top: 2px;
+}
+
 /* ============================================
    TABLET: portrait (max-width: 768px)
    Layout: preview top, controls bottom as grid
    ============================================ */
 @media (max-width: 768px) {
     .scene-bar {
-        gap: 0.5rem;
-        padding: 0.4rem 0.6rem;
+        gap: 0;
+        padding: 0;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    /* Show mobile toggle buttons */
+    .scene-mobile-toggles {
+        display: flex;
+        gap: 4px;
+        padding: 0.3rem 0.5rem;
+        justify-content: center;
+    }
+    .scene-toggle-btn {
+        padding: 0.3rem 0.8rem;
+        background: var(--bg4);
+        border: 2px solid #555;
+        color: var(--text);
+        font-size: 0.8rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .scene-toggle-btn:active { background: #444; }
+    /* Hide panels by default on mobile, show when .open */
+    .scene-panel {
+        display: none;
+        padding: 0.3rem 0.5rem;
+        gap: 0.4rem;
+        background: var(--bg2);
+        border-top: 1px solid var(--bg4);
+    }
+    .scene-panel.open {
+        display: flex;
+        flex-direction: column;
     }
 
     .scene-control input[type="range"] {
@@ -705,6 +861,15 @@ h1,
         min-width: 40px;
         font-size: 0.6rem;
     }
+
+    /* DOF bar compact on mobile */
+    .dof-bar { padding: 0.2rem 0.4rem 0.1rem; }
+    .dof-header { gap: 0.3rem; margin-bottom: 0.1rem; }
+    .dof-title { font-size: 0.55rem; }
+    .dof-info { font-size: 0.45rem; gap: 0.4rem; }
+    .dof-track { height: 20px; }
+    .dof-marker { font-size: 0.8rem; line-height: 20px; }
+    .dof-ticks { height: 10px; font-size: 0.4rem; }
 
     .simulator {
         grid-template-columns: 1fr;
@@ -724,9 +889,9 @@ h1,
         height: auto;
     }
 
-    /* Mode selector full width */
+    /* Mode selector: hide on mobile, use info-bar dropdown instead */
     .sim-controls>.control-group:first-child {
-        flex: 0 0 100%;
+        display: none;
     }
 
     /* Other controls: 3 per row */
@@ -802,7 +967,7 @@ h1,
     }
 
     .sim-controls>.control-group:first-child {
-        flex: 0 0 100%;
+        display: none;
     }
 
     /* 2 per row on small phones */

@@ -14,6 +14,10 @@ CameraSimulator.prototype.updateAll = function() {
         b.classList.toggle('active', b.dataset.mode === s.mode);
     });
     document.getElementById('sim-mode-badge').textContent = s.mode;
+    // Update dropdown active state
+    document.querySelectorAll('.mode-dropdown button').forEach(function(b) {
+        b.classList.toggle('active', b.textContent.trim() === s.mode);
+    });
 
     var ag = document.getElementById('aperture-group');
     var sg = document.getElementById('shutter-group');
@@ -42,6 +46,7 @@ CameraSimulator.prototype.updateAll = function() {
 
     this.updatePreview();
     this.updateMeter();
+    this.updateDOFBar();
 };
 
 CameraSimulator.prototype.updateMeter = function() {
