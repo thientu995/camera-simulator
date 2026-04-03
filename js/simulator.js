@@ -8,6 +8,7 @@
         sim = new CameraSimulator();
         sim.state.mode = el.dataset.initialMode || 'Av';
         sim.updateAll();
+        sim.initInputEditing();
     }
 
     // Window API for HTML onclick handlers
@@ -53,8 +54,16 @@
         var panel = document.getElementById('scene-panel-' + id);
         if (!panel) return;
         var isOpen = panel.classList.contains('open');
+        // Close all panels, remove active from all buttons
         document.querySelectorAll('.scene-panel').forEach(function(p) { p.classList.remove('open'); });
-        if (!isOpen) panel.classList.add('open');
+        document.querySelectorAll('.scene-toggle-btn').forEach(function(b) { b.classList.remove('active'); });
+        if (!isOpen) {
+            panel.classList.add('open');
+            // Find the button that triggered this
+            var btns = document.querySelectorAll('.scene-toggle-btn');
+            var idx = id === 'light' ? 0 : 1;
+            if (btns[idx]) btns[idx].classList.add('active');
+        }
     };
     window.toggleMobileMode = function() {
         var dd = document.getElementById('mode-dropdown');

@@ -606,6 +606,13 @@ h1,
     text-align: center;
     border: 2px solid var(--accent);
     width: 100%;
+    outline: none;
+    transition: background 0.15s, color 0.15s;
+}
+.spin-current[contenteditable="true"] {
+    background: var(--accent);
+    color: #000;
+    caret-color: #000;
 }
 
 .wb-presets {
@@ -840,6 +847,7 @@ h1,
         transition: all 0.2s;
     }
     .scene-toggle-btn:active { background: #444; }
+    .scene-toggle-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
     /* Hide panels by default on mobile, show when .open */
     .scene-panel {
         display: none;

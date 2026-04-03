@@ -145,3 +145,90 @@ CameraSimulator.prototype.updateSun = function(v) {
         }
     }
 };
+
+// --- Editable spin inputs: click to type, blur/enter to apply ---
+CameraSimulator.prototype.initInputEditing = function() {
+    var self = this;
+    var C = CameraSimulator;
+
+    // Parse a shutter string like "1/320", "1/2.5", "4"" into numeric seconds
+    function parseShutter(str) {
+        str = str.replace(/['"]/g, '').trim();
+        var parts = str.split('/');
+        if (parts.length === 2) return parseFloat(parts[0]) / parseFloat(parts[1]);
+        return parseFloat(parts[0]);
+    }
+
+    var configs = [
+        {
+            id: 'aperture-val', key: 'ai', arr: C.APERTURES,
+            parseDisplay: function(v) { return v.replace(/^f\/?/i, ''); },
+            parseInput: function(v) { return parseFloat(v); },
+            parseArr: function(v) { return parseFloat(v); }
+        },
+        {
+            id: 'shutter-val', key: 'si', arr: C.SHUTTERS,
+            parseDisplay: function(v) { return v.replace(/['"]/g, '').trim(); },
+            parseInput: function(v) { return parseShutter(v); },
+            parseArr: function(v) { return parseShutter(v); }
+        },
+        {
+            id: 'iso-val', key: 'ii', arr: C.ISOS,
+            parseDisplay: function(v) { return v; },
+            parseInput: function(v) { return parseFloat(v); },
+            parseArr: function(v) { return parseFloat(v); }
+        },
+        {
+            id: 'focal-val', key: 'fi', arr: C.FOCALS,
+            parseDisplay: function(v) { return v.replace(/mm$/i, ''); },
+            parseInput: function(v) { return parseFloat(v); },
+            parseArr: function(v) { return parseFloat(v); }
+        },
+        {
+            id: 'wb-val', key: 'wi', arr: C.WBS,
+            parseDisplay: function(v) { return v.replace(/k$/i, ''); },
+            parseInput: function(v) { return parseFloat(v); },
+            parseArr: function(v) { return parseFloat(v); }
+        }
+    ];
+
+    configs.forEach(function(cfg) {
+        var el = document.getElementById(cfg.id);
+        if (!el) return;
+        el.setAttribute('tabindex', '0');
+        el.style.cursor = 'text';
+
+        el.addEventListener('click', function() {
+            var rawVal = cfg.parseDisplay(el.textContent);
+            el.setAttribute('contenteditable', 'true');
+            el.textContent = rawVal;
+            el.focus();
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        });
+
+        el.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+        });
+
+        el.addEventListener('blur', function() {
+            el.removeAttribute('contenteditable');
+            var input = el.textContent.trim();
+            var num = cfg.parseInput(input);
+            if (!isNaN(num) && num > 0) {
+                var bestIdx = 0, bestDiff = Infinity;
+                for (var i = 0; i < cfg.arr.length; i++) {
+                    var arrNum = cfg.parseArr(cfg.arr[i]);
+                    if (isNaN(arrNum)) continue;
+                    var diff = Math.abs(arrNum - num);
+                    if (diff < bestDiff) { bestDiff = diff; bestIdx = i; }
+                }
+                self.state[cfg.key] = bestIdx;
+            }
+            self.updateAll();
+        });
+    });
+};
