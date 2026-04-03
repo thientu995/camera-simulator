@@ -1,6 +1,6 @@
 // camera-data.js - Constants and lookup tables
 function CameraSimulator() {
-    this.state = { mode:'Av', ai:5, si:18, ii:6, fi:7, wi:30, lighting:6, distance:1, bgDistance:50, tripod:false };
+    this.state = { mode:'Av', ai:5, si:18, ii:6, fi:7, wi:30, lighting:6, distance:1, bgDistance:1, tripod:false };
     this._lastBarrelFocal = -1;
 }
 
