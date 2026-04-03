@@ -185,7 +185,16 @@
             </div>
             <div class="dof-track">
                 <div class="dof-marker dof-marker-camera" title="Camera">&#x1F4F7;</div>
-                <div class="dof-zone" id="dof-zone"></div>
+                <div class="dof-zone" id="dof-zone">
+                    <div class="dof-arrows dof-arrows-left">
+                        <button class="dof-arrow" onclick="dofEdge('left','out')" title="Mo rong trai">&#9664;</button>
+                        <button class="dof-arrow" onclick="dofEdge('left','in')" title="Thu hep trai">&#9654;</button>
+                    </div>
+                    <div class="dof-arrows dof-arrows-right">
+                        <button class="dof-arrow" onclick="dofEdge('right','in')" title="Thu hep phai">&#9664;</button>
+                        <button class="dof-arrow" onclick="dofEdge('right','out')" title="Mo rong phai">&#9654;</button>
+                    </div>
+                </div>
                 <div class="dof-marker dof-marker-subject" id="dof-subject" title="Subject">&#x1F9D1;</div>
                 <div class="dof-marker dof-marker-bg" id="dof-bg" title="Background">&#x26F0;&#xFE0F;</div>
             </div>

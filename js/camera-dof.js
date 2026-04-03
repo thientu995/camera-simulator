@@ -49,11 +49,15 @@ CameraSimulator.prototype.updateDOFBar = function() {
 
     var dof = this.calcDOF();
     var s = this.state;
-    // Fixed scale: 0 (camera) to bgDist (background)
-    // Camera = left edge, BG = right edge, subject moves between them
-    var totalDist = dof.bgDist; // camera to BG distance
+    var totalDist = dof.bgDist;
 
-    function toPercent(m) { return Math.max(0, Math.min(100, (m / totalDist) * 100)); }
+    // Logarithmic scale: spreads near distances wider, compresses far distances
+    // This keeps subject visible even when BG is very far
+    var logMax = Math.log(totalDist + 1);
+    function toPercent(m) {
+        if (m <= 0) return 0;
+        return Math.max(0, Math.min(100, (Math.log(m + 1) / logMax) * 100));
+    }
     function fmtDist(m) {
         if (m === Infinity) return '\u221E';
         return m < 1 ? (m * 100).toFixed(0) + 'cm' : m.toFixed(2) + 'm';
@@ -66,11 +70,29 @@ CameraSimulator.prototype.updateDOFBar = function() {
     if (zone) {
         zone.style.left = nearPct + '%';
         zone.style.width = (farPct - nearPct) + '%';
+        // Hide arrows/border when zone edge is too close to track edge (would overlap icons)
+        var trackEl = document.querySelector('.dof-track');
+        var trackW = trackEl ? trackEl.offsetWidth : 400;
+        var arrowsW = 50; // approximate width of 2 arrow buttons
+        var atLeft = (nearPct / 100 * trackW) < arrowsW;
+        var atRight = ((100 - farPct) / 100 * trackW) < arrowsW;
+        var arrowsL = zone.querySelector('.dof-arrows-left');
+        var arrowsR = zone.querySelector('.dof-arrows-right');
+        zone.style.borderLeftColor = atLeft ? 'transparent' : '';
+        zone.style.borderRightColor = atRight ? 'transparent' : '';
+        if (arrowsL) arrowsL.style.display = atLeft ? 'none' : '';
+        if (arrowsR) arrowsR.style.display = atRight ? 'none' : '';
     }
 
     // Subject marker: moves based on distance
     var subjMark = document.getElementById('dof-subject');
-    if (subjMark) subjMark.style.left = toPercent(dof.subjectDist) + '%';
+    if (subjMark) {
+        var trackEl = document.querySelector('.dof-track');
+        var tw = trackEl ? trackEl.offsetWidth : 400;
+        var minP = 24 / tw * 100;
+        var maxP = 100 - 24 / tw * 100;
+        subjMark.style.left = Math.max(minP, Math.min(maxP, toPercent(dof.subjectDist))) + '%';
+    }
 
     // BG marker: always at right edge (100%)
     var bgMark = document.getElementById('dof-bg');
@@ -126,6 +148,21 @@ CameraSimulator.prototype.toggleDOFBar = function() {
     } else {
         bar.style.display = 'none';
         if (btn) btn.classList.remove('active');
+    }
+};
+
+// Arrow buttons on DOF zone edges
+// side: 'left' or 'right', dir: 'out' (expand) or 'in' (shrink)
+// Both sides: 'out' = close aperture (deeper DOF), 'in' = open aperture (shallower DOF)
+CameraSimulator.prototype.dofChangeAperture = function(side, dir) {
+    var C = CameraSimulator;
+    // out = expand DOF = increase f-number = ai+1
+    // in = shrink DOF = decrease f-number = ai-1
+    var step = (dir === 'out') ? 1 : -1;
+    var n = this.state.ai + step;
+    if (n >= 0 && n < C.APERTURES.length) {
+        this.state.ai = n;
+        this.updateAll();
     }
 };
 
@@ -189,15 +226,18 @@ CameraSimulator.prototype.initDOFDrag = function() {
         var C = CameraSimulator;
 
         if (dragging === 'subject') {
-            // Map percent to distance (min 0.5m, max = total - 0.5m)
-            var newDist = Math.max(0.5, Math.min(total - 0.5, pct * total));
-            // Round to nearest 0.5
+            // Limit based on icon width to avoid overlap with camera/mountain
+            var trackW = track.getBoundingClientRect().width;
+            var minPct = 24 / trackW; // ~24px from left edge
+            var maxPct = 1 - 24 / trackW; // ~24px from right edge
+            var clampedPct = Math.max(minPct, Math.min(maxPct, pct));
+            // Inverse log scale: convert percent back to distance
+            var logMax = Math.log(total + 1);
+            var newDist = Math.exp(clampedPct * logMax) - 1;
             newDist = Math.round(newDist * 2) / 2;
-            // Update distance and bgDistance to keep total constant
             var newBg = total - newDist;
             self.state.distance = Math.max(1, Math.min(10, Math.round(newDist)));
             self.state.bgDistance = Math.max(1, Math.min(50, Math.round(newBg)));
-            // Sync sliders
             var ds = document.getElementById('distance-slider');
             var bs = document.getElementById('bg-distance-slider');
             if (ds) ds.value = self.state.distance;

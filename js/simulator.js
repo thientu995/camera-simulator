@@ -51,6 +51,7 @@
     window.downloadPhoto = function() { sim.downloadPhoto(); };
     window.closePhoto    = function() { sim.closePhoto(); };
     window.toggleDOF     = function() { sim.toggleDOFBar(); };
+    window.dofEdge = function(side, dir) { sim.dofChangeAperture(side, dir); };
     window.toggleScenePanel = function(id) {
         var panel = document.getElementById('scene-panel-' + id);
         if (!panel) return;

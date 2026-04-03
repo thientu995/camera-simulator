@@ -16,6 +16,7 @@
     --accent: #f5c518;
     --accent2: #e0b000;
     --radius: 8px;
+    --bar-height: 36px;
 }
 
 html {
@@ -438,7 +439,8 @@ h1,
     right: 0;
     z-index: 10;
     background: rgba(0, 0, 0, 0.55);
-    padding: 0.25rem 0.6rem;
+    padding: 0 0.6rem;
+    height: var(--bar-height);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -648,12 +650,16 @@ h1,
     right: 0;
     z-index: 10;
     background: rgba(0, 0, 0, 0.45);
-    padding: 0.2rem 0.6rem;
+    height: var(--bar-height);
+    display: flex;
+    align-items: center;
+    padding: 0 0.6rem;
 }
 
 .meter-track {
     position: relative;
-    height: 18px;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -779,7 +785,7 @@ h1,
 .dof-info .dof-total { color: var(--accent); font-weight: 700; margin-left: auto; }
 .dof-track {
     position: relative;
-    height: 28px;
+    height: var(--bar-height);
     background: linear-gradient(to bottom, rgba(100,160,255,0.15), rgba(100,160,255,0.05));
     border-radius: 3px;
     overflow: visible;
@@ -793,13 +799,46 @@ h1,
     border-right: 2px solid #2c2;
     border-radius: 2px;
     transition: left 0.3s, width 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: visible;
 }
+.dof-arrow {
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    color: #2c2;
+    font-size: 0.6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    z-index: 4;
+    padding: 0;
+    line-height: 1;
+}
+.dof-arrow:hover { background: #2c2; color: #000; }
+.dof-arrow:active { transform: scale(0.85); }
+.dof-arrows {
+    display: flex;
+    gap: 1px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.dof-arrows-left { right: 100%; margin-right: 2px; }
+.dof-arrows-right { left: 100%; margin-left: 2px; }
 .dof-marker {
     position: absolute;
-    top: -2px;
+    top: 0;
     transform: translateX(-50%);
-    font-size: 1.1rem;
-    line-height: 28px;
+    font-size: 1.3rem;
+    line-height: var(--bar-height);
     transition: left 0.3s;
     z-index: 2;
 }
@@ -897,8 +936,8 @@ h1,
     .dof-header { gap: 0.3rem; margin-bottom: 0.1rem; }
     .dof-title { font-size: 0.55rem; }
     .dof-info { font-size: 0.45rem; gap: 0.4rem; }
-    .dof-track { height: 20px; }
-    .dof-marker { font-size: 0.8rem; line-height: 20px; }
+    .dof-track { height: var(--bar-height); }
+    .dof-marker { font-size: 1.1rem; line-height: var(--bar-height); }
     .dof-ticks { height: 10px; font-size: 0.4rem; }
 
     .simulator {
