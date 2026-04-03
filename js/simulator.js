@@ -13,6 +13,7 @@
     // Window API for HTML onclick handlers
     window.changeLighting = function(v) { sim.state.lighting = parseInt(v); sim.updateAll(); };
     window.changeDistance  = function(v) { sim.state.distance = parseInt(v); sim.updateAll(); };
+    window.changeBgDistance = function(v) { sim.state.bgDistance = parseInt(v); sim.updateAll(); };
     window.setMode        = function(m) { sim.state.mode = m; sim.updateAll(); };
     window.changeAperture = function(d) {
         var n = sim.state.ai + d;

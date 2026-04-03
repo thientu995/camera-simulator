@@ -38,6 +38,7 @@ CameraSimulator.prototype.updateAll = function() {
     document.getElementById('info-wb').textContent = C.WBS[s.wi] + 'K';
     document.getElementById('lighting-label').textContent = C.LIGHT_LABELS[s.lighting];
     document.getElementById('distance-label').textContent = s.distance + 'm';
+    document.getElementById('bg-distance-label').textContent = s.bgDistance + 'm';
 
     this.updatePreview();
     this.updateMeter();

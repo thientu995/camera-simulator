@@ -1,10 +1,10 @@
 // camera-data.js - Constants and lookup tables
 function CameraSimulator() {
-    this.state = { mode:'Av', ai:5, si:18, ii:6, fi:7, wi:30, lighting:6, distance:1, tripod:false };
+    this.state = { mode:'Av', ai:5, si:18, ii:6, fi:7, wi:30, lighting:6, distance:1, bgDistance:50, tripod:false };
     this._lastBarrelFocal = -1;
 }
 
-CameraSimulator.APERTURES = ['1','1.1','1.2','1.4','1.6','1.8','2','2.2','2.5','2.8','3.2','3.5','4','4.5','5.0','5.6','6.3','7.1','8','9','10','11','13','14','16','18','20','22','25','28','32','36','40','45','50','57','64','72','80','90'];
+CameraSimulator.APERTURES = ['1','1.1','1.2','1.4','1.6','1.8','2','2.2','2.5','2.8','3.2','3.5','4','4.5','5.0','5.6','6.3','7.1','8','9','10','11','13','14','16','18','20','22','25','28','32','36','40','45','50','57','64']//,'72','80','90'];
 
 CameraSimulator.APT_FNUM = [1,1.122,1.26,1.414,1.587,1.782,2,2.245,2.52,2.828,3.175,3.564,4,4.49,5.04,5.657,6.35,7.127,8,8.98,10.079,11.314,12.699,14.254,16,17.959,20.159,22.627,25.398,28.509,32,35.919,40.318,45.255,50.797,57.018,64,71.838,80.635,90.51];
 
@@ -32,3 +32,4 @@ CameraSimulator.FOCAL_MIN = 8;
 CameraSimulator.FOCAL_MAX = 200;
 CameraSimulator.FOCAL_RANGE = 192; // MAX - MIN
 CameraSimulator.FOCAL_WIDE_RANGE = 42; // 50 - MIN
+CameraSimulator.COC_LIMIT = 0.03; // Circle of confusion limit (mm) for full-frame

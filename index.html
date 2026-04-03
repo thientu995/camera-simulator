@@ -14,16 +14,22 @@
         <!-- Scene sliders (top bar) -->
         <div class="scene-bar">
             <div class="scene-control">
-                <label>Ánh sáng</label>
+                <label>🌙→☀️</label>
                 <input type="range" id="lighting-slider" min="0" max="10" value="6" step="1"
                     oninput="changeLighting(this.value)" />
                 <span id="lighting-label">Trời râm</span>
             </div>
             <div class="scene-control">
-                <label>Khoảng cách</label>
+                <label>📷→🧑</label>
                 <input type="range" id="distance-slider" min="1" max="10" value="1" step="1"
                     oninput="changeDistance(this.value)" />
                 <span id="distance-label">1m</span>
+            </div>
+            <div class="scene-control">
+                <label>🧑→⛰️</label>
+                <input type="range" id="bg-distance-slider" min="1" max="50" value="50" step="1"
+                    oninput="changeBgDistance(this.value)" />
+                <span id="bg-distance-label">10m</span>
             </div>
         </div>
 

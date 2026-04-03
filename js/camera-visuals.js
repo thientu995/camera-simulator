@@ -10,17 +10,26 @@ CameraSimulator.prototype.kelvinToTint = function(k) {
 CameraSimulator.prototype.computeVisuals = function() {
     var C = CameraSimulator, s = this.state;
     var focal = C.FOCALS[s.fi], shutSec = C.SHT_SEC[s.si];
+    var fNum = C.APT_FNUM[s.ai];
     var brightness = Math.max(0.05, Math.min(2.8, 1.0 + this.exposure() * 0.3));
-    var focalFactor = Math.pow(focal / C.FOCAL_MAX, 0.7);
-    var distFactor = Math.max(0.3, 1.5 - s.distance * 0.12);
-    var maxAi = C.APERTURES.length - 1;
-    var aBlur = Math.max(0, (maxAi - s.ai) / maxAi * 9);
-    var blurPx = aBlur * (0.2 + focalFactor * 0.8) * distFactor;
+
+    // --- DOF-based background blur ---
+    // CoC = (f^2 * |Dbg - Dsubj|) / (N * Dsubj * Dbg)
+    var Dsubj = s.distance * 1000;
+    var Dbg = (s.distance + s.bgDistance) * 1000;
+    var f = focal;
+    var cocBg = (f * f * Math.abs(Dbg - Dsubj)) / (fNum * Dsubj * Dbg);
+    var cocRatio = cocBg / C.COC_LIMIT;
+    var rawBlur = Math.min(25, Math.pow(cocRatio, 0.7) * 2.5);
 
     // Background scale
     var bgZoom = 1.0 + (focal - C.FOCAL_MIN) / C.FOCAL_RANGE * 1.2;
     var bgDistZoom = 1.0 + (10 - s.distance) * 0.03;
-    var bgScale = bgZoom * bgDistZoom * (blurPx > 0 ? 1 + blurPx * 0.008 : 1);
+    var bgDepthScale = 1.0 + (10 - s.bgDistance) * 0.012;
+    var bgScale = bgZoom * bgDistZoom * bgDepthScale * (rawBlur > 0 ? 1 + rawBlur * 0.006 : 1);
+    // Compensate blur for bg scale: smaller bg needs proportionally more blur
+    var blurPx = rawBlur / Math.max(0.5, bgScale);
+    var bgScale = bgZoom * bgDistZoom * bgDepthScale * (blurPx > 0 ? 1 + blurPx * 0.006 : 1);
 
     // Subject scale
     var focalScale = 0.3 + (focal - C.FOCAL_MIN) / C.FOCAL_RANGE * 0.65;
@@ -31,7 +40,6 @@ CameraSimulator.prototype.computeVisuals = function() {
     var wideStretch = focal < 50 ? 1 + (50 - focal) / C.FOCAL_WIDE_RANGE * 0.12 : 1;
 
     // Focal perspective distortion on subject
-    // Wide: face narrower+elongated, Tele: face wider+flatter
     var subjDistortX = 1 + (focal < 50 ? -(50 - focal) / C.FOCAL_WIDE_RANGE * 0.2 : (focal - 50) / 150 * 0.1);
     var subjDistortY = 1 + (focal < 50 ? (50 - focal) / C.FOCAL_WIDE_RANGE * 0.15 : -(focal - 50) / 150 * 0.08);
 
