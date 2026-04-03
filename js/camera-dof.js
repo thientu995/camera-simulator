@@ -128,3 +128,110 @@ CameraSimulator.prototype.toggleDOFBar = function() {
         if (btn) btn.classList.remove('active');
     }
 };
+
+// --- DOF bar drag interaction ---
+CameraSimulator.prototype.initDOFDrag = function() {
+    var self = this;
+    var track = document.querySelector('.dof-track');
+    if (!track) return;
+
+    var dragging = null; // 'subject', 'dof-left', 'dof-right'
+
+    function getPercent(e) {
+        var rect = track.getBoundingClientRect();
+        var x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+        return Math.max(0, Math.min(1, x / rect.width));
+    }
+
+    function getTotalDist() {
+        return self.state.distance + self.state.bgDistance;
+    }
+
+    // --- Subject drag: changes camera-to-subject distance ---
+    var subjEl = document.getElementById('dof-subject');
+    if (subjEl) {
+        subjEl.style.cursor = 'ew-resize';
+        subjEl.style.userSelect = 'none';
+        subjEl.style.touchAction = 'none';
+        subjEl.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dragging = 'subject';
+        });
+        subjEl.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            dragging = 'subject';
+        });
+    }
+
+    // --- DOF zone edges: drag to change aperture ---
+    var zoneEl = document.getElementById('dof-zone');
+    if (zoneEl) {
+        // Add invisible drag handles on left/right edges
+        var handleL = document.createElement('div');
+        handleL.className = 'dof-handle dof-handle-left';
+        var handleR = document.createElement('div');
+        handleR.className = 'dof-handle dof-handle-right';
+        zoneEl.appendChild(handleL);
+        zoneEl.appendChild(handleR);
+
+        handleL.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); dragging = 'dof-edge'; });
+        handleL.addEventListener('touchstart', function(e) { e.stopPropagation(); dragging = 'dof-edge'; }, { passive: true });
+        handleR.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); dragging = 'dof-edge'; });
+        handleR.addEventListener('touchstart', function(e) { e.stopPropagation(); dragging = 'dof-edge'; }, { passive: true });
+    }
+
+    function onMove(e) {
+        if (!dragging) return;
+        if (e.cancelable) e.preventDefault();
+        var pct = getPercent(e);
+        var total = getTotalDist();
+        var C = CameraSimulator;
+
+        if (dragging === 'subject') {
+            // Map percent to distance (min 0.5m, max = total - 0.5m)
+            var newDist = Math.max(0.5, Math.min(total - 0.5, pct * total));
+            // Round to nearest 0.5
+            newDist = Math.round(newDist * 2) / 2;
+            // Update distance and bgDistance to keep total constant
+            var newBg = total - newDist;
+            self.state.distance = Math.max(1, Math.min(10, Math.round(newDist)));
+            self.state.bgDistance = Math.max(1, Math.min(50, Math.round(newBg)));
+            // Sync sliders
+            var ds = document.getElementById('distance-slider');
+            var bs = document.getElementById('bg-distance-slider');
+            if (ds) ds.value = self.state.distance;
+            if (bs) bs.value = self.state.bgDistance;
+            self.updateAll();
+        } else if (dragging === 'dof-edge') {
+            // Dragging DOF edge = changing aperture
+            // Wider zone = larger f-number (smaller aperture, deeper DOF)
+            // Narrower zone = smaller f-number (larger aperture, shallower DOF)
+            var dof = self.calcDOF();
+            var subjPct = self.state.distance / total;
+            // How far is the drag from subject? Use as DOF width hint
+            var dragDist = Math.abs(pct - subjPct) * total * 2; // approximate total DOF in meters
+
+            // Find aperture that gives closest DOF to dragDist
+            var bestAi = self.state.ai;
+            var bestDiff = Infinity;
+            var origAi = self.state.ai;
+            for (var i = 0; i < C.APERTURES.length; i++) {
+                self.state.ai = i;
+                var testDof = self.calcDOF();
+                var testTotal = testDof.total === Infinity ? 999 : testDof.total;
+                var diff = Math.abs(testTotal - dragDist);
+                if (diff < bestDiff) { bestDiff = diff; bestAi = i; }
+            }
+            self.state.ai = bestAi;
+            self.updateAll();
+        }
+    }
+
+    function onEnd() { dragging = null; }
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onEnd);
+};

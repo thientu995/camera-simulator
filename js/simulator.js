@@ -9,6 +9,7 @@
         sim.state.mode = el.dataset.initialMode || 'Av';
         sim.updateAll();
         sim.initInputEditing();
+        sim.initDOFDrag();
     }
 
     // Window API for HTML onclick handlers
