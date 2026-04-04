@@ -3,6 +3,21 @@
 
 <head>
     <meta charset="utf-8" />
+    <script>
+    (function(){
+        var h=location.hostname;
+        if(h&&h!=='localhost'&&h!=='127.0.0.1'&&h.indexOf('t4vn.com')===-1){
+            location.replace('https://cs.t4vn.com');
+        }
+        if(h&&h.indexOf('t4vn.com')!==-1){
+            var s=document.createElement('script');
+            s.async=true;
+            s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+            document.head.appendChild(s);
+            (window.adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:'ca-pub-9027163152867616',enable_page_level_ads:true});
+        }
+    })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Camera Simulator - Học Nhiếp Ảnh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
