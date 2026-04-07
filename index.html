@@ -4,239 +4,314 @@
 <head>
     <meta charset="utf-8" />
     <script>
-    (function(){
-        var h=location.hostname;
-        if(h&&h!=='localhost'&&h!=='127.0.0.1'&&h.indexOf('t4vn.com')===-1){
-            location.replace('https://cs.t4vn.com');
-        }
-        if(h&&h.indexOf('t4vn.com')!==-1){
-            var s=document.createElement('script');
-            s.async=true;
-            s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-            document.head.appendChild(s);
-            (window.adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:'ca-pub-9027163152867616',enable_page_level_ads:true});
-        }
-    })();
+        (function () {
+            var h = location.hostname;
+            if (h && h !== 'localhost' && h !== '127.0.0.1' && h.indexOf('t4vn.com') === -1) {
+                location.replace('https://cs.t4vn.com');
+            }
+            if (h && h.indexOf('t4vn.com') !== -1) {
+                var s = document.createElement('script');
+                s.async = true;
+                s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+                document.head.appendChild(s);
+                (window.adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: 'ca-pub-9027163152867616', enable_page_level_ads: true });
+            }
+        })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Camera Simulator - Học Nhiếp Ảnh</title>
+    <title>Camera Simulator - Gi&#x1EA3; l&#x1EAD;p M&#x00E1;y &#x1EA2;nh | H&#x1ECD;c Nhi&#x1EBF;p &#x1EA2;nh Online
+    </title>
+    <meta name="description"
+        content="Camera Simulator - Công cụ giả lập máy ảnh trực tuyến miễn phí. Học nhiếp ảnh qua thực hành: khẩu độ, tốc độ, ISO, tiêu cự, DOF, white balance. Tương tác trực quan." />
+    <meta name="keywords"
+        content="camera simulator, giả lập máy ảnh, học nhiếp ảnh, photography simulator, DOF, depth of field, aperture, shutter speed, ISO, focal length, white balance, bokeh" />
+    <meta name="author" content="T4VN" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://cs.t4vn.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Camera Simulator - Gi&#x1EA3; l&#x1EAD;p M&#x00E1;y &#x1EA2;nh Online" />
+    <meta property="og:description"
+        content="Công cụ giả lập máy ảnh trực tuyến miễn phí. Học nhiếp ảnh qua thực hành với khẩu độ, tốc độ, ISO, tiêu cự, DOF." />
+    <meta property="og:url" content="https://cs.t4vn.com/" />
+    <meta property="og:site_name" content="T4VN Camera Simulator" />
+    <meta property="og:locale" content="vi_VN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Camera Simulator - Gi&#x1EA3; l&#x1EAD;p M&#x00E1;y &#x1EA2;nh Online" />
+    <meta name="twitter:description"
+        content="Học nhiếp ảnh qua thực hành: khẩu độ, tốc độ, ISO, tiêu cự, DOF. Miễn phí." />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Camera Simulator",
+        "url": "https://cs.t4vn.com/",
+        "description": "Interactive camera settings simulator for photography learning. Practice aperture, shutter speed, ISO, focal length, DOF and white balance.",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "author": { "@type": "Organization", "name": "T4VN", "url": "https://t4vn.com" },
+        "inLanguage": ["vi", "en"]
+    }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="simulator.css" />
 </head>
 
 <body>
-    <div class="simulator-wrapper">
-        <!-- Scene sliders (top bar) -->
-        <div class="scene-bar">
-            <!-- Mobile toggle buttons (hidden on desktop) -->
-            <div class="scene-mobile-toggles">
-                <button class="scene-toggle-btn" onclick="toggleScenePanel('light')">🌙☀️</button>
-                <button class="scene-toggle-btn" onclick="toggleScenePanel('dist')">📷🧑⛰️</button>
-                <button class="dof-toggle active" id="dof-toggle" onclick="toggleDOF()" title="DOF Visual">DOF-V</button>
-            </div>
-            <!-- Expandable panels -->
-            <div class="scene-panel" id="scene-panel-light">
-                <div class="scene-control">
-                    <label>🌙→☀️</label>
-                    <input type="range" id="lighting-slider" min="0" max="10" value="6" step="1"
-                        oninput="changeLighting(this.value)" />
-                    <span id="lighting-label">Trời râm</span>
+    <h1 class="sr-only">Camera Simulator - Gi&#x1EA3; l&#x1EAD;p M&#x00E1;y &#x1EA2;nh Online</h1>
+    <main>
+        <div class="simulator-wrapper">
+            <!-- Scene sliders (top bar) -->
+            <div class="scene-bar">
+                <!-- Mobile toggle buttons (hidden on desktop) -->
+                <div class="scene-mobile-toggles">
+                    <button class="scene-toggle-btn" onclick="toggleScenePanel('light')">🌙☀️</button>
+                    <button class="scene-toggle-btn" onclick="toggleScenePanel('dist')">📷🧑⛰️</button>
+                    <button class="dof-toggle active" id="dof-toggle" onclick="toggleDOF()"
+                        title="DOF Visual">DOF-V</button>
+                </div>
+                <!-- Expandable panels -->
+                <div class="scene-panel" id="scene-panel-light">
+                    <div class="scene-control">
+                        <label>🌙→☀️</label>
+                        <input type="range" id="lighting-slider" min="0" max="10" value="6" step="1"
+                            oninput="changeLighting(this.value)" />
+                        <span id="lighting-label">Trời râm</span>
+                    </div>
+                </div>
+                <div class="scene-panel" id="scene-panel-dist">
+                    <div class="scene-control">
+                        <label>📷→🧑</label>
+                        <input type="range" id="distance-slider" min="1" max="10" value="1" step="1"
+                            oninput="changeDistance(this.value)" />
+                        <span id="distance-label">1m</span>
+                    </div>
+                    <div class="scene-control">
+                        <label>🧑→⛰️</label>
+                        <input type="range" id="bg-distance-slider" min="1" max="50" value="1" step="1"
+                            oninput="changeBgDistance(this.value)" />
+                        <span id="bg-distance-label">50m</span>
+                    </div>
                 </div>
             </div>
-            <div class="scene-panel" id="scene-panel-dist">
-                <div class="scene-control">
-                    <label>📷→🧑</label>
-                    <input type="range" id="distance-slider" min="1" max="10" value="1" step="1"
-                        oninput="changeDistance(this.value)" />
-                    <span id="distance-label">1m</span>
-                </div>
-                <div class="scene-control">
-                    <label>🧑→⛰️</label>
-                    <input type="range" id="bg-distance-slider" min="1" max="50" value="1" step="1"
-                        oninput="changeBgDistance(this.value)" />
-                    <span id="bg-distance-label">50m</span>
-                </div>
-            </div>
-        </div>
 
-        <div class="simulator" id="camera-sim" data-initial-mode=   "Av">
-            <div class="sim-preview" id="sim-preview-container">
-                <div class="sim-scene" id="sim-scene">
-                    <div class="sim-layer-bg" id="sim-bg">
-                        <img src="images/sim-background.svg" alt="Background" />
-                    </div>
-                    <!-- Sun light source with bokeh/starburst -->
-                    <div class="sim-sun" id="sim-sun">
-                        <div class="sun-core"></div>
-                        <div class="sun-glow"></div>
-                        <div class="sun-rays" id="sun-rays"></div>
-                    </div>
-                    <div class="sim-windmill" id="sim-windmill">
-                        <div class="windmill-pole"></div>
-                        <div class="windmill-blades-wrap" id="windmill-blades-wrap">
-                            <div class="windmill-blades" id="windmill-blades">
-                                <div class="blade"></div>
-                                <div class="blade"></div>
-                                <div class="blade"></div>
+            <div class="simulator" id="camera-sim" data-initial-mode="Av">
+                <div class="sim-preview" id="sim-preview-container">
+                    <div class="sim-scene" id="sim-scene">
+                        <div class="sim-layer-bg" id="sim-bg">
+                            <img src="images/sim-background.svg" alt="Background" />
+                        </div>
+                        <!-- Sun light source with bokeh/starburst -->
+                        <div class="sim-sun" id="sim-sun">
+                            <div class="sun-core"></div>
+                            <div class="sun-glow"></div>
+                            <div class="sun-rays" id="sun-rays"></div>
+                        </div>
+                        <div class="sim-windmill" id="sim-windmill">
+                            <div class="windmill-pole"></div>
+                            <div class="windmill-blades-wrap" id="windmill-blades-wrap">
+                                <div class="windmill-blades" id="windmill-blades">
+                                    <div class="blade"></div>
+                                    <div class="blade"></div>
+                                    <div class="blade"></div>
+                                </div>
+                                <!-- Motion ghost blades (populated by JS) -->
+                                <div class="windmill-ghosts" id="windmill-ghosts"></div>
                             </div>
-                            <!-- Motion ghost blades (populated by JS) -->
-                            <div class="windmill-ghosts" id="windmill-ghosts"></div>
+                            <div class="windmill-hub"></div>
                         </div>
-                        <div class="windmill-hub"></div>
+                        <div class="sim-layer-subject" id="sim-subject">
+                            <img src="images/sim-subject.svg" alt="Subject" />
+                        </div>
+                        <div class="sim-overlay" id="sim-overlay"></div>
+                        <div class="sim-wb-overlay" id="sim-wb"></div>
+                        <div class="sim-noise-overlay" id="sim-noise"></div>
                     </div>
-                    <div class="sim-layer-subject" id="sim-subject">
-                        <img src="images/sim-subject.svg" alt="Subject" />
+                    <div class="sim-info-bar">
+                        <div class="mode-badge-wrap">
+                            <button class="mode-badge" id="sim-mode-badge" onclick="toggleMobileMode()">Av</button>
+                            <div class="mode-dropdown" id="mode-dropdown">
+                                <button onclick="setMode('P')">P</button>
+                                <button onclick="setMode('Av')">Av</button>
+                                <button onclick="setMode('Tv')">Tv</button>
+                                <button onclick="setMode('M')">M</button>
+                            </div>
+                        </div>
+                        <span><span class="label">Aperture</span><span id="info-aperture">f/1.8</span></span>
+                        <span><span class="label">Shutter</span><span id="info-shutter">1/125</span></span>
+                        <span><span class="label">ISO</span><span id="info-iso">100</span></span>
+                        <button class="capture-btn" onclick="capturePhoto()"></button>
+                        <span><span class="label">File</span>JPEG</span>
+                        <span><span class="label">Focal</span><span id="info-focal">50mm</span></span>
+                        <span><span class="label">WB</span><span id="info-wb">5500K</span></span>
+                        <span><span class="label">Exposure</span><span id="info-ev">+0.0 EV</span></span>
                     </div>
-                    <div class="sim-overlay" id="sim-overlay"></div>
-                    <div class="sim-wb-overlay" id="sim-wb"></div>
-                    <div class="sim-noise-overlay" id="sim-noise"></div>
-                </div>
-                <div class="sim-info-bar">
-                    <div class="mode-badge-wrap">
-                        <button class="mode-badge" id="sim-mode-badge" onclick="toggleMobileMode()">Av</button>
-                        <div class="mode-dropdown" id="mode-dropdown">
-                            <button onclick="setMode('P')">P</button>
-                            <button onclick="setMode('Av')">Av</button>
-                            <button onclick="setMode('Tv')">Tv</button>
-                            <button onclick="setMode('M')">M</button>
+                    <div class="exposure-meter">
+                        <div class="meter-track">
+                            <div class="meter-ticks">
+                                <span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span>
+                            </div>
+                            <div class="meter-scale">
+                                <span>-3</span><span>-2</span><span>-1</span><span>0</span><span>+1</span><span>+2</span><span>+3</span>
+                            </div>
+                            <div class="meter-indicator" id="meter-indicator"></div>
                         </div>
-                    </div>
-                    <span><span class="label">Aperture</span><span id="info-aperture">f/1.8</span></span>
-                    <span><span class="label">Shutter</span><span id="info-shutter">1/125</span></span>
-                    <span><span class="label">ISO</span><span id="info-iso">100</span></span>
-                    <button class="capture-btn" onclick="capturePhoto()"></button>
-                    <span><span class="label">File</span>JPEG</span>
-                    <span><span class="label">Focal</span><span id="info-focal">50mm</span></span>
-                    <span><span class="label">WB</span><span id="info-wb">5500K</span></span>
-                    <span><span class="label">Exposure</span><span id="info-ev">+0.0 EV</span></span>
-                </div>
-                <div class="exposure-meter">
-                    <div class="meter-track">
-                        <div class="meter-ticks">
-                            <span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span><span>|</span>
-                        </div>
-                        <div class="meter-scale">
-                            <span>-3</span><span>-2</span><span>-1</span><span>0</span><span>+1</span><span>+2</span><span>+3</span>
-                        </div>
-                        <div class="meter-indicator" id="meter-indicator"></div>
                     </div>
                 </div>
-            </div>
 
-            <div class="sim-controls">
-                <div class="control-group">
-                    <label>Chế độ</label>
-                    <div class="mode-selector">
-                        <button class="mode-btn" data-mode="P" onclick="setMode('P')">P</button>
-                        <button class="mode-btn" data-mode="Av" onclick="setMode('Av')">Av</button>
-                        <button class="mode-btn" data-mode="Tv" onclick="setMode('Tv')">Tv</button>
-                        <button class="mode-btn" data-mode="M" onclick="setMode('M')">M</button>
+                <div class="sim-controls">
+                    <div class="control-group">
+                        <label>Chế độ</label>
+                        <div class="mode-selector">
+                            <button class="mode-btn" data-mode="P" onclick="setMode('P')">P</button>
+                            <button class="mode-btn" data-mode="Av" onclick="setMode('Av')">Av</button>
+                            <button class="mode-btn" data-mode="Tv" onclick="setMode('Tv')">Tv</button>
+                            <button class="mode-btn" data-mode="M" onclick="setMode('M')">M</button>
+                        </div>
+                    </div>
+                    <div class="control-group" id="aperture-group">
+                        <label>Khẩu độ (F)</label>
+                        <div class="value-spinner">
+                            <button class="spin-btn" onclick="changeAperture(-1)">▲</button>
+                            <div class="spin-val" id="aperture-prev"></div>
+                            <div class="spin-current" id="aperture-val">1.8</div>
+                            <div class="spin-val" id="aperture-next"></div>
+                            <button class="spin-btn" onclick="changeAperture(1)">▼</button>
+                        </div>
+                    </div>
+                    <div class="control-group" id="shutter-group">
+                        <label>Tốc độ</label>
+                        <div class="value-spinner">
+                            <button class="spin-btn" onclick="changeShutter(-1)">▲</button>
+                            <div class="spin-val" id="shutter-prev"></div>
+                            <div class="spin-current" id="shutter-val">1/125</div>
+                            <div class="spin-val" id="shutter-next"></div>
+                            <button class="spin-btn" onclick="changeShutter(1)">▼</button>
+                        </div>
+                    </div>
+                    <div class="control-group" id="iso-group">
+                        <label>ISO</label>
+                        <div class="value-spinner">
+                            <button class="spin-btn" onclick="changeISO(-1)">▲</button>
+                            <div class="spin-val" id="iso-prev"></div>
+                            <div class="spin-current" id="iso-val">100</div>
+                            <div class="spin-val" id="iso-next"></div>
+                            <button class="spin-btn" onclick="changeISO(1)">▼</button>
+                        </div>
+                    </div>
+                    <div class="control-group" id="focal-group">
+                        <label>Tiêu cự (mm)</label>
+                        <div class="value-spinner">
+                            <button class="spin-btn" onclick="changeFocal(-1)">▲</button>
+                            <div class="spin-val" id="focal-prev"></div>
+                            <div class="spin-current" id="focal-val">50</div>
+                            <div class="spin-val" id="focal-next"></div>
+                            <button class="spin-btn" onclick="changeFocal(1)">▼</button>
+                        </div>
+                    </div>
+                    <div class="control-group" id="wb-group">
+                        <label>WB (Kelvin)</label>
+                        <div class="value-spinner">
+                            <button class="spin-btn" onclick="changeWB(-1)">▲</button>
+                            <div class="spin-val" id="wb-prev"></div>
+                            <div class="spin-current" id="wb-val">5500K</div>
+                            <div class="spin-val" id="wb-next"></div>
+                            <button class="spin-btn" onclick="changeWB(1)">▼</button>
+                        </div>
+                        <div class="wb-presets">
+                            <button class="wb-preset" onclick="setWBPreset(0)" title="Candle 2500K">🕯️</button>
+                            <button class="wb-preset" onclick="setWBPreset(7)" title="Tungsten 3200K">💡</button>
+                            <button class="wb-preset" onclick="setWBPreset(30)" title="Daylight 5500K">☀️</button>
+                            <button class="wb-preset" onclick="setWBPreset(40)" title="Cloudy 6500K">☁️</button>
+                            <button class="wb-preset" onclick="setWBPreset(55)" title="Shade 8000K">🌤️</button>
+                        </div>
                     </div>
                 </div>
-                <div class="control-group" id="aperture-group">
-                    <label>Khẩu độ (F)</label>
-                    <div class="value-spinner">
-                        <button class="spin-btn" onclick="changeAperture(-1)">▲</button>
-                        <div class="spin-val" id="aperture-prev"></div>
-                        <div class="spin-current" id="aperture-val">1.8</div>
-                        <div class="spin-val" id="aperture-next"></div>
-                        <button class="spin-btn" onclick="changeAperture(1)">▼</button>
-                    </div>
+            </div>
+            <!-- DOF Visualization Bar -->
+            <div class="dof-bar" id="dof-bar">
+                <div class="dof-header">
+                    <span class="dof-title">DOF Visual</span>
+                    <div class="dof-info" id="dof-info"></div>
                 </div>
-                <div class="control-group" id="shutter-group">
-                    <label>Tốc độ</label>
-                    <div class="value-spinner">
-                        <button class="spin-btn" onclick="changeShutter(-1)">▲</button>
-                        <div class="spin-val" id="shutter-prev"></div>
-                        <div class="spin-current" id="shutter-val">1/125</div>
-                        <div class="spin-val" id="shutter-next"></div>
-                        <button class="spin-btn" onclick="changeShutter(1)">▼</button>
+                <div class="dof-track">
+                    <div class="dof-marker dof-marker-camera" title="Camera">&#x1F4F7;</div>
+                    <div class="dof-zone" id="dof-zone">
+                        <div class="dof-arrows dof-arrows-left">
+                            <button class="dof-arrow" onclick="dofEdge('left','out')"
+                                title="Mo rong trai">&#9664;</button>
+                            <button class="dof-arrow" onclick="dofEdge('left','in')"
+                                title="Thu hep trai">&#9654;</button>
+                        </div>
+                        <div class="dof-arrows dof-arrows-right">
+                            <button class="dof-arrow" onclick="dofEdge('right','in')"
+                                title="Thu hep phai">&#9664;</button>
+                            <button class="dof-arrow" onclick="dofEdge('right','out')"
+                                title="Mo rong phai">&#9654;</button>
+                        </div>
                     </div>
+                    <div class="dof-marker dof-marker-subject" id="dof-subject" title="Subject">&#x1F9D1;</div>
+                    <div class="dof-marker dof-marker-bg" id="dof-bg" title="Background">&#x26F0;&#xFE0F;</div>
                 </div>
-                <div class="control-group" id="iso-group">
-                    <label>ISO</label>
-                    <div class="value-spinner">
-                        <button class="spin-btn" onclick="changeISO(-1)">▲</button>
-                        <div class="spin-val" id="iso-prev"></div>
-                        <div class="spin-current" id="iso-val">100</div>
-                        <div class="spin-val" id="iso-next"></div>
-                        <button class="spin-btn" onclick="changeISO(1)">▼</button>
-                    </div>
+                <div class="dof-ticks" id="dof-ticks"></div>
+            </div>
+        </div>
+        <div class="photo-modal" id="photo-modal">
+            <div class="photo-modal-content">
+                <div class="photo-modal-header">
+                    <span id="photo-modal-info"></span>
+                    <button class="photo-modal-close" onclick="closePhoto()">&times;</button>
                 </div>
-                <div class="control-group" id="focal-group">
-                    <label>Tiêu cự (mm)</label>
-                    <div class="value-spinner">
-                        <button class="spin-btn" onclick="changeFocal(-1)">▲</button>
-                        <div class="spin-val" id="focal-prev"></div>
-                        <div class="spin-current" id="focal-val">50</div>
-                        <div class="spin-val" id="focal-next"></div>
-                        <button class="spin-btn" onclick="changeFocal(1)">▼</button>
-                    </div>
-                </div>
-                <div class="control-group" id="wb-group">
-                    <label>WB (Kelvin)</label>
-                    <div class="value-spinner">
-                        <button class="spin-btn" onclick="changeWB(-1)">▲</button>
-                        <div class="spin-val" id="wb-prev"></div>
-                        <div class="spin-current" id="wb-val">5500K</div>
-                        <div class="spin-val" id="wb-next"></div>
-                        <button class="spin-btn" onclick="changeWB(1)">▼</button>
-                    </div>
-                    <div class="wb-presets">
-                        <button class="wb-preset" onclick="setWBPreset(0)" title="Candle 2500K">🕯️</button>
-                        <button class="wb-preset" onclick="setWBPreset(7)" title="Tungsten 3200K">💡</button>
-                        <button class="wb-preset" onclick="setWBPreset(30)" title="Daylight 5500K">☀️</button>
-                        <button class="wb-preset" onclick="setWBPreset(40)" title="Cloudy 6500K">☁️</button>
-                        <button class="wb-preset" onclick="setWBPreset(55)" title="Shade 8000K">🌤️</button>
-                    </div>
+                <canvas id="photo-canvas"></canvas>
+                <div class="photo-modal-actions">
+                    <button class="shutter-btn" onclick="downloadPhoto()">💾 Lưu ảnh</button>
+                    <button class="shutter-btn" style="background:#555;color:#eee;" onclick="closePhoto()">Đóng</button>
                 </div>
             </div>
         </div>
-        <!-- DOF Visualization Bar -->
-        <div class="dof-bar" id="dof-bar">
-            <div class="dof-header">
-                <span class="dof-title">DOF Visual</span>
-                <div class="dof-info" id="dof-info"></div>
-            </div>
-            <div class="dof-track">
-                <div class="dof-marker dof-marker-camera" title="Camera">&#x1F4F7;</div>
-                <div class="dof-zone" id="dof-zone">
-                    <div class="dof-arrows dof-arrows-left">
-                        <button class="dof-arrow" onclick="dofEdge('left','out')" title="Mo rong trai">&#9664;</button>
-                        <button class="dof-arrow" onclick="dofEdge('left','in')" title="Thu hep trai">&#9654;</button>
-                    </div>
-                    <div class="dof-arrows dof-arrows-right">
-                        <button class="dof-arrow" onclick="dofEdge('right','in')" title="Thu hep phai">&#9664;</button>
-                        <button class="dof-arrow" onclick="dofEdge('right','out')" title="Mo rong phai">&#9654;</button>
-                    </div>
-                </div>
-                <div class="dof-marker dof-marker-subject" id="dof-subject" title="Subject">&#x1F9D1;</div>
-                <div class="dof-marker dof-marker-bg" id="dof-bg" title="Background">&#x26F0;&#xFE0F;</div>
-            </div>
-            <div class="dof-ticks" id="dof-ticks"></div>
-        </div>
-    </div>
-    <div class="photo-modal" id="photo-modal">
-        <div class="photo-modal-content">
-            <div class="photo-modal-header">
-                <span id="photo-modal-info"></span>
-                <button class="photo-modal-close" onclick="closePhoto()">&times;</button>
-            </div>
-            <canvas id="photo-canvas"></canvas>
-            <div class="photo-modal-actions">
-                <button class="shutter-btn" onclick="downloadPhoto()">💾 Lưu ảnh</button>
-                <button class="shutter-btn" style="background:#555;color:#eee;" onclick="closePhoto()">Đóng</button>
+        </main>
+        <!-- Info button -->
+        <button class="info-btn" onclick="document.getElementById('info-dialog').classList.add('show')">i</button>
+        <!-- Info dialog -->
+        <div class="info-dialog show" id="info-dialog">
+            <div class="info-dialog-content">
+                <button class="info-dialog-close" onclick="closeInfoDialog()">&times;</button>
+                <h2>Camera Simulator</h2>
+                <p>Interactive camera settings simulator for photography learning.</p>
+                <hr>
+                <p><strong>Contact</strong></p>
+                <p>Website: <a href="https://t4vn.com" target="_blank">t4vn.com</a></p>
+                <p>Email: <a href="mailto:thientu@t4vn.com">thientu@t4vn.com</a></p>
+                <hr>
+                <p style="font-size:0.7rem;color:#888;">&copy; 2025 T4VN. All rights reserved.</p>
             </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@3.5.0/dist/dom-to-image-more.min.js"></script>
-    <script src="js/camera-data.js"></script>
-    <script src="js/camera-exposure.js"></script>
-    <script src="js/camera-visuals.js"></script>
-    <script src="js/camera-ui.js"></script>
-    <script src="js/camera-dof.js"></script>
-    <script src="js/camera-capture.js"></script>
-    <script src="js/simulator.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@3.5.0/dist/dom-to-image-more.min.js"></script>
+        <script>
+            function closeInfoDialog() {
+                document.getElementById('info-dialog').classList.remove('show');
+                document.cookie = 'info_closed=1;max-age=86400;path=/';
+            }
+            (function () {
+                if (document.cookie.indexOf('info_closed=1') !== -1) {
+                    var d = document.getElementById('info-dialog');
+                    if (d) d.classList.remove('show');
+                }
+            })();
+        </script>
+        <script src="js/camera-data.js"></script>
+        <script src="js/camera-exposure.js"></script>
+        <script src="js/camera-visuals.js"></script>
+        <script src="js/camera-ui.js"></script>
+        <script src="js/camera-dof.js"></script>
+        <script src="js/camera-capture.js"></script>
+        <script src="js/simulator.js"></script>
 </body>
 
 </html>

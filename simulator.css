@@ -39,6 +39,7 @@ h1,
 .subtitle {
     display: none;
 }
+.sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0; }
 
 /* Scene bar (top) */
 .scene-bar {
@@ -1182,6 +1183,70 @@ h1,
         font-size: 0.5rem;
     }
 }
+
+/* Info button */
+.info-btn {
+    position: fixed;
+    top: 8px;
+    right: 8px;
+    z-index: 100;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--text2);
+    background: rgba(0,0,0,0.6);
+    color: var(--text2);
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-style: italic;
+    font-family: Georgia, serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+}
+.info-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Info dialog */
+.info-dialog {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0,0,0,0.7);
+    align-items: center;
+    justify-content: center;
+}
+.info-dialog.show { display: flex; }
+.info-dialog-content {
+    background: var(--bg2);
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 1.5rem;
+    max-width: 360px;
+    width: 90%;
+    position: relative;
+    color: var(--text);
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+.info-dialog-content h2 { font-size: 1.1rem; color: var(--accent); margin-bottom: 0.5rem; }
+.info-dialog-content hr { border: none; border-top: 1px solid var(--bg4); margin: 0.75rem 0; }
+.info-dialog-content a { color: var(--accent); text-decoration: none; }
+.info-dialog-content a:hover { text-decoration: underline; }
+.info-dialog-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+.info-dialog-close:hover { color: var(--accent); }
 
 /* Photo result modal */
 .photo-modal {
