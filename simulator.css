@@ -885,6 +885,9 @@ h1,
    Layout: preview top, controls bottom as grid
    ============================================ */
 @media (max-width: 768px) {
+    body { height: auto; min-height: 100vh; min-height: 100dvh; overflow: auto; }
+    .simulator-wrapper { flex: none; overflow: visible; }
+
     .scene-bar {
         gap: 0;
         padding: 0;

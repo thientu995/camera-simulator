@@ -275,43 +275,43 @@
                 </div>
             </div>
         </div>
-        </main>
-        <!-- Info button -->
-        <button class="info-btn" onclick="document.getElementById('info-dialog').classList.add('show')">i</button>
-        <!-- Info dialog -->
-        <div class="info-dialog show" id="info-dialog">
-            <div class="info-dialog-content">
-                <button class="info-dialog-close" onclick="closeInfoDialog()">&times;</button>
-                <h2>Camera Simulator</h2>
-                <p>Interactive camera settings simulator for photography learning.</p>
-                <hr>
-                <p><strong>Contact</strong></p>
-                <p>Website: <a href="https://t4vn.com" target="_blank">t4vn.com</a></p>
-                <p>Email: <a href="mailto:thientu@t4vn.com">thientu@t4vn.com</a></p>
-                <hr>
-                <p style="font-size:0.7rem;color:#888;">&copy; 2025 T4VN. All rights reserved.</p>
-            </div>
+    </main>
+    <!-- Info button -->
+    <button class="info-btn" onclick="document.getElementById('info-dialog').classList.add('show')">i</button>
+    <!-- Info dialog -->
+    <div class="info-dialog show" id="info-dialog">
+        <div class="info-dialog-content">
+            <button class="info-dialog-close" onclick="closeInfoDialog()">&times;</button>
+            <h2>Camera Simulator</h2>
+            <p>Interactive camera settings simulator for photography learning.</p>
+            <hr>
+            <p><strong>Contact</strong></p>
+            <p>Website: <a href="https://t4vn.com" target="_blank">t4vn.com</a></p>
+            <p>Email: <a href="mailto:thientu@t4vn.com">thientu@t4vn.com</a></p>
+            <hr>
+            <p style="font-size:0.7rem;color:#888;">&copy; 2025 T4VN. All rights reserved.</p>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@3.5.0/dist/dom-to-image-more.min.js"></script>
-        <script>
-            function closeInfoDialog() {
-                document.getElementById('info-dialog').classList.remove('show');
-                document.cookie = 'info_closed=1;max-age=86400;path=/';
+    </div>
+    <script>
+        function closeInfoDialog() {
+            document.getElementById('info-dialog').classList.remove('show');
+            document.cookie = 'info_closed=1;max-age=86400;path=/';
+        }
+        (function () {
+            if (document.cookie.indexOf('info_closed=1') !== -1) {
+                var d = document.getElementById('info-dialog');
+                if (d) d.classList.remove('show');
             }
-            (function () {
-                if (document.cookie.indexOf('info_closed=1') !== -1) {
-                    var d = document.getElementById('info-dialog');
-                    if (d) d.classList.remove('show');
-                }
-            })();
-        </script>
-        <script src="js/camera-data.js"></script>
-        <script src="js/camera-exposure.js"></script>
-        <script src="js/camera-visuals.js"></script>
-        <script src="js/camera-ui.js"></script>
-        <script src="js/camera-dof.js"></script>
-        <script src="js/camera-capture.js"></script>
-        <script src="js/simulator.js"></script>
+        })();
+    </script>
+    <script src="js/lib/dom-to-image-more.min.js"></script>
+    <script src="js/camera-data.js"></script>
+    <script src="js/camera-exposure.js"></script>
+    <script src="js/camera-visuals.js"></script>
+    <script src="js/camera-ui.js"></script>
+    <script src="js/camera-dof.js"></script>
+    <script src="js/camera-capture.js"></script>
+    <script src="js/simulator.js"></script>
 </body>
 
 </html>
